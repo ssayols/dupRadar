@@ -1,0 +1,22 @@
+Reading ReferenceID 0
+
+Reading ReferenceID 4
+
+--------------------------------------------------------------------------
+SUMMARY STATISTICS OF THE READS
+Total number of reads: 6198
+Total number of paired-end reads: 0
+Total number of properly paired reads: 0
+Total number of unmapped reads : 0
+Total number of reverse strand mapped reads: 4281
+Total number of QC-failed reads : 0
+Size of singleKeyMap (must be zero) : 0
+Size of pairedKeyMap (must be zero) : 0
+Total number of missing mates: 0
+--------------------------------------------------------------------------
+Sorting the indices of 2341 duplicated records
+
+Writing wgEncodeCaltechRnaSeqGm12878R1x75dAlignsRep2V2_duprm.bam
+Successfully marked 2341 unpaired and 0 paired duplicate reads
+
+Dedup complete!
