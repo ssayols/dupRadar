@@ -1,7 +1,7 @@
 Package: dupRadar
 Type: Package
 Title: Assessment of duplication rates in RNA-Seq datasets
-Version: 1.5.2
+Version: 1.5.3
 Date: 2015-09-26
 Author: Sergi Sayols <sergisayolspuig@gmail.com>, Holger Klein
         <holger.klein@gmail.com>

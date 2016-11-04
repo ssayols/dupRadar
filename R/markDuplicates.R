@@ -81,7 +81,8 @@ picardMarkDuplicates <- function(bam,out,path,verbose,threads=1,maxmem="4g") {
     # call picard MarkDuplicates
     cmd <- paste0(" -XX:ParallelGCThreads=",threads,
                   " -Xmx",maxmem,
-                  " -jar ",file.path(path,"MarkDuplicates.jar"),
+                  " -jar ",file.path(path,"picard.jar"),
+                  " MarkDuplicates",
                   " INPUT=",bam,
                   " OUTPUT=",out,
                   " METRICS_FILE=",gsub("\\.bam$","_picard_metrics.txt",bam),

@@ -82,7 +82,7 @@ Now, simply call the wrapper:
 # call the duplicate marker and analyze the reads
 bamDuprm <- markDuplicates(dupremover="bamutil",
 			   bam="test.bam",
-	    		   path="/opt/bamUtil-master/bin",
+	    	   path="/opt/bamUtil-master/bin",
 			   rminput=FALSE)
 ```
 
@@ -164,7 +164,7 @@ supports multiple threads.
 bamDuprm <- "test_duprm.bam"	# the duplicate marked bam file
 gtf <- "genes.gtf"	# the gene model
 stranded <- 2		# '0' (unstranded), '1' (stranded) and '2' (reversely stranded)
-paired   <- FALSE	# is paired end data
+paired   <- FALSE	# is the library paired end?
 threads  <- 4		# number of threads to be used
 
 # Duplication rate analysis
