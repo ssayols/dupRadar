@@ -1,0 +1,16 @@
+citEntry(entry="article",
+         title = "dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data",
+         author = personList( as.person("Sergi Sayols"),
+                              as.person("Denise Scherzinger"),
+                              as.person("Holger Klein")),
+         year = 2016,
+         journal = "BMC Bioinformatics",
+         doi = "10.1186/s12859-016-1276-2",
+         url="http://dx.doi.org/10.1186/s12859-016-1276-2",
+         volume = 17,
+         issue = 1,
+         pages = 428,
+         textVersion = 
+         paste("Sergi SayolsEmail author, Denise Scherzinger and Holger Klein (2016):", 
+               "dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data.",
+               "BMC Bioinformatics, 17:428, doi:10.1186/s12859-016-1276-2" ) )

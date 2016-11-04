@@ -1,6 +1,10 @@
+Changes in version 1.5.2
+-------------------------
+
+    * `CITATION` file was added.
+
 Changes in version 0.99.3
-----------------------------------------------------------------
-DOCUMENTATION
+-------------------------
 
     * First release to Bioconductor
     * `NEWS` file was added.
