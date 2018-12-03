@@ -14,5 +14,5 @@ Depends: R (>= 3.2.0)
 Imports: Rsubread (>= 1.14.1)
 LazyData: true
 License: GPL-3
-biocViews: Technology, Sequencing, RNASeq, QualityControl
+biocViews: Technology, Sequencing, RNASeq, QualityControl, ImmunoOncology
 NeedsCompilation: no
