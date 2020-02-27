@@ -284,7 +284,7 @@ The common denominator for both designs is the importance of having a low
 intercept, suggesting that duplication rate at lowly expressed genes may serve
 as a quality measure.
 
-All the pre-computed duplication matrices are available in the [dupRadar sourceforge site](https://sourceforge.net/projects/dupradar/).
+All the pre-computed duplication matrices are available in the [dupRadar Github site](https://github.com/ssayols/dupRadar).
 
 
 ## Other plots
@@ -460,7 +460,7 @@ To include dupRadar as a single step in an RNA-Seq pipeline, integration into a 
 ##
 ## Holger Klein & Sergi Sayols
 ##
-## https://sourceforge.net/projects/dupradar/
+## https://github.com/ssayols/dupRadar
 ##
 ## input:
 ## - _duplicate marked_ bam file
@@ -572,7 +572,7 @@ citation("dupRadar")
 
 ## Reporting problems or bugs
 
-If you run into problems using dupRadar, the [Bioconductor Support site](https://support.bioconductor.org/) is a good first place to ask for help. If you think there is a bug or an unreported feature, you can report it using the [dupRadar sourceforge site](https://sourceforge.net/projects/dupradar/).
+If you run into problems using dupRadar, the [Bioconductor Support site](https://support.bioconductor.org/) is a good first place to ask for help. If you think there is a bug or an unreported feature, you can report it using the [dupRadar Github site](https://github.com/ssayols/dupRadar).
 
 # Session info
 
