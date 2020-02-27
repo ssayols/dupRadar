@@ -11,6 +11,6 @@ citEntry(entry="article",
          issue = 1,
          pages = 428,
          textVersion = 
-         paste("Sergi SayolsEmail author, Denise Scherzinger and Holger Klein (2016):", 
+         paste("Sergi Sayols, Denise Scherzinger and Holger Klein (2016):", 
                "dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data.",
                "BMC Bioinformatics, 17:428, doi:10.1186/s12859-016-1276-2" ) )
