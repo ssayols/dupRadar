@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dupRadar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.20.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.20.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/dupRadar.html">Get started</a>
 </li>
@@ -62,78 +58,91 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="dupradar" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#dupradar" class="anchor"></a>dupRadar</h1></div>
+
+
+<div class="section level1">
+<div class="page-header"><h1 id="dupradar">dupRadar<a class="anchor" aria-label="anchor" href="#dupradar"></a>
+</h1></div>
 <p>Assessment of duplication rates in RNA-Seq datasets.</p>
-<div id="introduction-to-dupradar" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction-to-dupradar" class="anchor"></a>Introduction to dupRadar</h2>
+<div class="section level2">
+<h2 id="introduction-to-dupradar">Introduction to dupRadar<a class="anchor" aria-label="anchor" href="#introduction-to-dupradar"></a>
+</h2>
 <p>PCR clonal artefacts originating from NGS library preparation can affect both genomic as well as RNA-Seq applications when protocols are pushed to their limits. In RNA-Seq however the artifactual reads are not easy to tell apart from normal read duplication due to natural over-sequencing of highly expressed genes. Especially when working with little input material or single cells assessing the fraction of duplicate reads is an important quality control step for NGS data sets. Up to now there are only tools to calculate the global duplication rates that do not take into account the effect of gene expression levels which leaves them of limited use for RNA-Seq data.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>To install this package, start R and enter:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"dupRadar"</span><span class="op">)</span></code></pre></div>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"dupRadar"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="documentation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
 <p>To view documentation for the version of this package installed in your system, start R and enter:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span><span class="op">(</span><span class="st">"dupRadar"</span><span class="op">)</span></code></pre></div>
-<p>or access the <a href="https://ssayols.github.io/dupRadar/index.html">pkgdown documentation</a>.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"dupRadar"</span><span class="op">)</span></code></pre></div>
+<p>or access the <a href="https://ssayols.github.io/dupRadar/index.html" class="external-link">pkgdown documentation</a>.</p>
 </div>
-<div id="dependencies" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dependencies" class="anchor"></a>Dependencies</h2>
-<div id="imports-mandatory-for-core-functionality" class="section level3">
-<h3 class="hasAnchor">
-<a href="#imports-mandatory-for-core-functionality" class="anchor"></a>Imports (mandatory for core functionality)</h3>
+<div class="section level2">
+<h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
+</h2>
+<div class="section level3">
+<h3 id="imports-mandatory-for-core-functionality">Imports (mandatory for core functionality)<a class="anchor" aria-label="anchor" href="#imports-mandatory-for-core-functionality"></a>
+</h3>
 <ul>
 <li>
-<a href="http://bioconductor.org/packages/Rsubread/">Rsubread</a>: Mapping, quantification and variant analysis of sequencing data.</li>
+<a href="http://bioconductor.org/packages/Rsubread/" class="external-link">Rsubread</a>: Mapping, quantification and variant analysis of sequencing data.</li>
 </ul>
 </div>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
-<p>Sayols S, Scherzinger D, Klein H (2016). “dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data.” BMC Bioinformatics, 17, 428. <a href="http://dx.doi.org/10.1186/s12859-016-1276-2">doi: 10.1186/s12859-016-1276-2</a>.</p>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>Sayols S, Scherzinger D, Klein H (2016). “dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data.” BMC Bioinformatics, 17, 428. <a href="http://dx.doi.org/10.1186/s12859-016-1276-2" class="external-link">doi: 10.1186/s12859-016-1276-2</a>.</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/dupRadar">https://​www.bioconductor.org/​packages/​dupRadar</a>
-</li>
+<li><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">View on Bioconductor</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing dupRadar</a></li>
+<li><a href="authors.html#citation">Citing dupRadar</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Sergi Sayols <br><small class="roles"> Maintainer </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.altmetric.com/details/12855878" class="external-link"><img src="https://img.shields.io/badge/Altmetric-9-blue.svg"></a></li>
 </ul>
 </div>
 
@@ -142,11 +151,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Sergi Sayols.</p>
+  <p></p>
+<p>Developed by Sergi Sayols.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -154,6 +165,8 @@
 
   
 
+
+  
 
   </body>
 </html>
