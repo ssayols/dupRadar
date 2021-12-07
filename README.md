@@ -1,3 +1,5 @@
+[![](https://img.shields.io/badge/Altmetric-9-blue.svg)](https://www.altmetric.com/details/12855878)
+
 # dupRadar
 
 Assessment of duplication rates in RNA-Seq datasets.
