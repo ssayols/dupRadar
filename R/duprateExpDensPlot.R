@@ -21,6 +21,8 @@
 #'
 #' # duprate plot
 #' duprateExpDensPlot(DupMat=dm)
+#' @importFrom KernSmooth bkde2D
+#' @export
 duprateExpDensPlot <- function(DupMat,
                                pal=c("cyan","blue","green","yellow","red"), 
                                tNoAlternative=TRUE, tRPKM=TRUE, tRPKMval=0.5, 

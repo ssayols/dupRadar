@@ -7,6 +7,7 @@
 #' @param stepSize The window size
 #' @param DupMat The duplication matrix calculated by \code{analyzeDuprates}
 #' @return The fraction of total reads in a vector of bins
+#' @export
 getRpkBinReadCountFraction <- function(p, stepSize=stepSize, DupMat=DupMat) {
 
     ## generate a subset of the matrix for RPK values given bin

@@ -9,6 +9,7 @@
 #' @param value The column to be subset
 #' @param DupMat The duplication matrix calculated by \code{analyzeDuprates}
 #' @return The subseted matrix
+#' @export
 getDupMatBin <- function(p, stepSize=0.05, value="allCounts", DupMat) {
     ## subset of the matrix for values in a specific bin
     ## defined by the upper bound p and stepSize

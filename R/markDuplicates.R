@@ -30,11 +30,16 @@
 #'                            path="/opt/bamUtil-master/bin",rminput=FALSE)
 #' dm <- analyzeDuprates(bamDuprm,gtf,stranded,paired,threads)
 #' }
-markDuplicates <- function(dupremover="bamutil",bam=NULL,
-                           out=gsub("\\.bam$","_duprm.bam",bam),rminput=TRUE,
-                           path=".",verbose=TRUE,...) {
+#' @export
+markDuplicates <- function(dupremover=c("bamutil", "picard"),
+                           bam=NULL,
+                           out=gsub("\\.bam$","_duprm.bam",bam),
+                           rminput=TRUE,
+                           path=".",
+                           verbose=TRUE,...) {
 
     # check input parms
+    dupremover <- match.arg(dupremover)
     if(!file.exists(bam))  stop("file",bam,"not found!")
     if(!file.exists(path)) stop("dir",path,"not found!")
     if(!file.exists(dirname(out))) {
@@ -43,15 +48,9 @@ markDuplicates <- function(dupremover="bamutil",bam=NULL,
     }
 
     # dispatch the function
-    if(dupremover == "picard") {
-        picardMarkDuplicates (bam=bam,out=out,path=path,verbose=verbose,...)
-    }
-    else if(dupremover == "bamutil") {
-        bamutilMarkDuplicates(bam=bam,out=out,path=path,verbose=verbose,...)
-    }
-    else {
-        stop("dupremover must be either picard or bamutil!")
-    }
+    switch(dupremover,
+           picard =picardMarkDuplicates (bam=bam,out=out,path=path,verbose=verbose,...),
+           bamutil=bamutilMarkDuplicates(bam=bam,out=out,path=path,verbose=verbose,...))
 
     # remove non duplicate-marked bam file
     if(rminput) file.remove(bam)

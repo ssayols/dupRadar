@@ -16,6 +16,7 @@
 #'
 #' # duprate boxplot
 #' duprateExpBoxplot(DupMat=dm)
+#' @export
 duprateExpBoxplot <- function(DupMat, stepSize=0.05, ...) {
   
     ## define expression bins for boxplot

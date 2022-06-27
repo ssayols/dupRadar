@@ -17,6 +17,7 @@
 #' # call the plot and identify genes
 #' duprateExpPlot(DupMat=dm)
 #' duprateExpIdentify(DupMat=dm)
+#' @export
 duprateExpIdentify <- function(DupMat, idCol="ID") {
     marked <- identify(log10(DupMat[,"RPK"]),
                        100*DupMat[,"dupRate"],

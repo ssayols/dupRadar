@@ -17,6 +17,7 @@
 #'
 #' # call the plot
 #' cumulativeDuprateBarplot(DupMat=dm)
+#' @export
 cumulativeDuprateBarplot <- function(DupMat, stepSize=0.05, ...) {
     ## Attention 1:
     ## Usually we have a certain amount of genes in our tables that have

@@ -14,6 +14,7 @@
 #'
 #' # duprate plot
 #' duprateExpFit(DupMat=dm)
+#' @export
 duprateExpFit <- function(DupMat) {
   
 	x <- log10(DupMat$RPK)

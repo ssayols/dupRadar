@@ -27,6 +27,8 @@
 #'
 #' # call the duplicate marker and analyze the reads
 #' dm <- analyzeDuprates(bam,gtf,stranded,paired,threads)
+#' @importFrom Rsubread featureCounts
+#' @export
 analyzeDuprates <- function(bam,gtf,stranded=0,paired=FALSE,threads=1,
                             verbose=FALSE,...) {
 
@@ -76,12 +78,11 @@ analyzeDuprates <- function(bam,gtf,stranded=0,paired=FALSE,threads=1,
         # total number of mapped reads
         N <- sum(x$stat[,2]) - x$stat[x$stat$Status == "Unassigned_Unmapped",2]
 
-        x <- data.frame(gene=rownames(x$counts),
-                        width=x$annotation$Length[match(rownames(x$counts),
-                                                        x$annotation$GeneID)],
+        x <- data.frame(gene  =rownames(x$counts),
+                        width =x$annotation$Length[match(rownames(x$counts), x$annotation$GeneID)],
                         counts=x$counts[,1],
-                        RPK=0,
-                        RPKM=0)
+                        RPK   =0,
+                        RPKM  =0)
         x$RPK  <- x$counts * (10^3 / x$width)
         x$RPKM <- x$RPK * ( 10^6 / N)
 
@@ -89,18 +90,18 @@ analyzeDuprates <- function(bam,gtf,stranded=0,paired=FALSE,threads=1,
     })
 
     # calculate duprates per gene, count duplicates per gene
-    x <- data.frame(ID=x[[1]]$gene,
-                    geneLength=x[[1]]$width,
-                    allCountsMulti=x[[1]]$counts,
+    x <- data.frame(ID                 =x[[1]]$gene,
+                    geneLength         =x[[1]]$width,
+                    allCountsMulti     =x[[1]]$counts,
                     filteredCountsMulti=x[[2]]$counts,
-                    dupRateMulti=(x[[1]]$counts-x[[2]]$counts) / x[[1]]$counts,
-                    dupsPerIdMulti=x[[1]]$counts - x[[2]]$counts,
-                    RPKMulti=x[[1]]$RPK,
-                    RPKMMulti=x[[1]]$RPKM,
-                    allCounts=x[[3]]$counts,
-                    filteredCounts=x[[4]]$counts,
-                    dupRate=(x[[3]]$counts - x[[4]]$counts) / x[[3]]$counts,
-                    dupsPerId=x[[3]]$counts - x[[4]]$counts,
-                    RPK=x[[3]]$RPK,
-                    RPKM=x[[3]]$RPKM)
+                    dupRateMulti       =(x[[1]]$counts - x[[2]]$counts) / x[[1]]$counts,
+                    dupsPerIdMulti     =x[[1]]$counts - x[[2]]$counts,
+                    RPKMulti           =x[[1]]$RPK,
+                    PKMMulti           =x[[1]]$RPKM,
+                    allCounts          =x[[3]]$counts,
+                    filteredCounts     =x[[4]]$counts,
+                    dupRate            =(x[[3]]$counts - x[[4]]$counts) / x[[3]]$counts,
+                    dupsPerId          =x[[3]]$counts - x[[4]]$counts,
+                    RPK                =x[[3]]$RPK,
+                    RPKM               =x[[3]]$RPKM)
 }

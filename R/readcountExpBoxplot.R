@@ -18,6 +18,7 @@
 #'
 #' # barplot of percentage of reads falling into expression bins
 #' readcountExpBoxplot(DupMat=dm)
+#' @export
 readcountExpBoxplot <- function(DupMat, stepSize=0.05, ...) {
 
     ## define bin upper bounds

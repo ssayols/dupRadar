@@ -6,6 +6,7 @@
 #' @param stepSize The window size
 #' @param DupMat The duplication matrix calculated by \code{analyzeDuprates}
 #' @return The averaged RPK per bin
+#' @export
 getBinRpkMean <- function(p, stepSize, DupMat) {
     ## get subset of DupMat 
     dupMatBin <- getDupMatBin(p=p,

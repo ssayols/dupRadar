@@ -19,6 +19,7 @@
 #'
 #' # duprate plot
 #' duprateExpPlot(DupMat=dm)
+#' @export
 duprateExpPlot <- function(DupMat,
                            tNoAlternative=TRUE,
                            tRPKM=TRUE,

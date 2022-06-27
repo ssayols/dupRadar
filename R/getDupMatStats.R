@@ -13,6 +13,7 @@
 #'
 #' # call the plot and identify genes
 #' getDupMatStats(DupMat=dm)
+#' @export
 getDupMatStats <- function(DupMat) {
 
     nRegions <- nrow(DupMat)

@@ -6,6 +6,7 @@
 #' @param p The vector of bins
 #' @param DupMat The duplication matrix calculated by \code{analyzeDuprates}
 #' @return The cumulative read count fraction
+#' @export
 getRpkCumulativeReadCountFraction <- function(p, DupMat=DupMat) {
 
     ## generate a subset of the matrix for RPK values < than RPK percentile p

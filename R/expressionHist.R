@@ -17,6 +17,7 @@
 #'
 #' # histogram of expression values for annotation
 #' expressionHist(DupMat=dm)
+#' @export
 expressionHist <- function(DupMat, value="RPK", ...) {
     hist(log10(DupMat[,value]),
          axes=FALSE,

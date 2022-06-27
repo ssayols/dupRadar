@@ -14,6 +14,7 @@
 #'
 #' # calculate the dynamic range
 #' getDynamicRange(dm)
+#' @export
 getDynamicRange <- function(dm) {
 
   step <- 0.01
