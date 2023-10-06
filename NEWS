@@ -1,3 +1,8 @@
+Changes in version 1.30.2
+-------------------------
+
+    * Correctly added roxygen2 imports to remove warnings on package checks
+
 Changes in version 1.21.2
 -------------------------
 

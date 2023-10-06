@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dupRadar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.26.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.27.2</span>
       </span>
     </div>
 
@@ -47,17 +47,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getDynamicRange</span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getDynamicRange</span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dm</dt>
 <dd><p>The duplication matrix calculated by <code>analyzeDuprates</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with 2 elements, containing the dynamic range counting all
+    
+
+<p>A list with 2 elements, containing the dynamic range counting all
 reads and the dynamic range after removing duplicates.</p>
     </div>
     <div id="details">
@@ -67,9 +70,9 @@ reads and the dynamic range after removing duplicates.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># dm is a duplication matrix calculated by analyzeDuprates:</span></span>
-<span class="r-in"><span class="co"># R&gt; dm &lt;- analyzeDuprates(bamDuprm,gtf,stranded,paired,threads)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">dupRadar_examples</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># dm is a duplication matrix calculated by analyzeDuprates:</span></span></span>
+<span class="r-in"><span><span class="co"># R&gt; dm &lt;- analyzeDuprates(bamDuprm,gtf,stranded,paired,threads)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">dupRadar_examples</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from dupRadar_examples (pos = 3):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     dm, dm.bad</span>
@@ -94,9 +97,9 @@ reads and the dynamic range after removing duplicates.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from dupRadar_examples (pos = 10):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     dm, dm.bad</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># calculate the dynamic range</span></span>
-<span class="r-in"><span class="fu">getDynamicRange</span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># calculate the dynamic range</span></span></span>
+<span class="r-in"><span><span class="fu">getDynamicRange</span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $dynrange.all</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 31153.04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -117,7 +120,7 @@ reads and the dynamic range after removing duplicates.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

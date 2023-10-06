@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dupRadar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.26.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.27.2</span>
       </span>
     </div>
 
@@ -49,29 +49,42 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">picardMarkDuplicates</span><span class="op">(</span><span class="va">bam</span>, <span class="va">out</span>, <span class="va">path</span>, <span class="va">verbose</span>, threads <span class="op">=</span> <span class="fl">1</span>, maxmem <span class="op">=</span> <span class="st">"4g"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">picardMarkDuplicates</span><span class="op">(</span><span class="va">bam</span>, <span class="va">out</span>, <span class="va">path</span>, <span class="va">verbose</span>, threads <span class="op">=</span> <span class="fl">1</span>, maxmem <span class="op">=</span> <span class="st">"4g"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>bam</dt>
 <dd><p>The bam file to mark duplicates from</p></dd>
+
+
 <dt>out</dt>
 <dd><p>Regular expression describing the transformation on the original
 filename to get the output filename. By default, a "_duprm" suffix is
 added before the bam extension</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Path to the duplicate marker binaries</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Redirect all the program output to the R console</p></dd>
+
+
 <dt>threads</dt>
 <dd><p>Number of threads to use</p></dd>
+
+
 <dt>maxmem</dt>
 <dd><p>Max memory assigned to the jvm</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The return code of the system call</p>
+    
+
+<p>The return code of the system call</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -91,7 +104,7 @@ added before the bam extension</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

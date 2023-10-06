@@ -3,6 +3,11 @@
 #' @name dupRadar
 #' @docType package
 #' @import Rsubread 
+#' @import KernSmooth
+#' @importFrom grDevices colorRampPalette densCols
+#' @importFrom graphics Axis abline axis barplot boxplot hist identify legend lines par smoothScatter title
+#' @importFrom stats binomial coef glm median predict quantile
+#' @importFrom utils capture.output
 NULL
 
 #' Example data containing precomputed matrices for two RNASeq experiments
@@ -45,3 +50,4 @@ NULL
 #' @usage data(dupRadar_examples)
 #' @format A data frame with 23228 rows and 14 variables
 NULL
+#> NULL
