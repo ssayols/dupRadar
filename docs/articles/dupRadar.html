@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dupRadar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.26.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.27.2</span>
       </span>
     </div>
 
@@ -60,7 +60,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Using the dupRadar package</h1>
-                        <h4 data-toc-skip class="author">Sergi Sayols, Holger Klein</h4>
+                        <h4 data-toc-skip class="author">Sergi Sayols,
+Holger Klein</h4>
             
             <h4 data-toc-skip class="date">June 23, 2015</h4>
       
@@ -89,10 +90,36 @@ document.addEventListener("DOMContentLoaded", function() {
 </script><div class="section level2">
 <h2 id="introduction-to-dupradar">Introduction to dupRadar<a class="anchor" aria-label="anchor" href="#introduction-to-dupradar"></a>
 </h2>
-<p>RNA-Seq experiments are a common strategy nowadays to quantify the gene expression levels in cells. Due to its higher sensitivity compared to arrays and the ability to discover novel features, makes them the choice for most modern experiments.</p>
-<p>In RNA-Seq - as in all other NGS applications - quality control is essential. Current NGS workflows usually involve PCR steps at some point, which involves the danger of PCR artefacts and over-amplification of reads. For common DNA-based assays PCR duplicates are often simply removed before further analysis and their overall fraction or the read multiplicity taken as quality metrics. In RNA-Seq however, apart from the technical PCR duplicates, there is a strong source for biological read duplicates: for a given gene length and sequencing depth there exists an expression level beyond which it is not possible to add place more reads inside a gene locus without placing a second read exactly on the position of an already existing read. For this reason the overall duplication rate is not a useful measure for RNA-Seq.</p>
-<p>As in the NGS/RNA-Seq QC ecosystem there were no suitable tools to address this question, we set out to develop a new tool. The <em>dupRadar</em> package gives an insight into the duplication problem by graphically relating the gene expression level and the duplication rate present on it. Thus, failed experiments can be easily identified at a glance.</p>
-<p><strong>Note: by now RNA-Seq protocols have matured so that for bulk RNA protocols data rarely suffer from technical duplicates. With newer low-input or single cell RNA-Seq protocols technical duplicates possible problems are worth to be checked for by default, especially if protocols are pushed to or beyond their boundaries. Paired-end libraries make the distinction between duplicates due to highly expressed genes and PCR duplicates easier, but the problem itself is not completely solved, especially at higher sequencing depths.</strong></p>
+<p>RNA-Seq experiments are a common strategy nowadays to quantify the
+gene expression levels in cells. Due to its higher sensitivity compared
+to arrays and the ability to discover novel features, makes them the
+choice for most modern experiments.</p>
+<p>In RNA-Seq - as in all other NGS applications - quality control is
+essential. Current NGS workflows usually involve PCR steps at some
+point, which involves the danger of PCR artefacts and over-amplification
+of reads. For common DNA-based assays PCR duplicates are often simply
+removed before further analysis and their overall fraction or the read
+multiplicity taken as quality metrics. In RNA-Seq however, apart from
+the technical PCR duplicates, there is a strong source for biological
+read duplicates: for a given gene length and sequencing depth there
+exists an expression level beyond which it is not possible to add place
+more reads inside a gene locus without placing a second read exactly on
+the position of an already existing read. For this reason the overall
+duplication rate is not a useful measure for RNA-Seq.</p>
+<p>As in the NGS/RNA-Seq QC ecosystem there were no suitable tools to
+address this question, we set out to develop a new tool. The
+<em>dupRadar</em> package gives an insight into the duplication problem
+by graphically relating the gene expression level and the duplication
+rate present on it. Thus, failed experiments can be easily identified at
+a glance.</p>
+<p><strong>Note: by now RNA-Seq protocols have matured so that for bulk
+RNA protocols data rarely suffer from technical duplicates. With newer
+low-input or single cell RNA-Seq protocols technical duplicates possible
+problems are worth to be checked for by default, especially if protocols
+are pushed to or beyond their boundaries. Paired-end libraries make the
+distinction between duplicates due to highly expressed genes and PCR
+duplicates easier, but the problem itself is not completely solved,
+especially at higher sequencing depths.</strong></p>
 </div>
 <div class="section level2">
 <h2 id="getting-started-using-dupradar">Getting started using dupRadar<a class="anchor" aria-label="anchor" href="#getting-started-using-dupradar"></a>
@@ -100,73 +127,110 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="section level3">
 <h3 id="preparing-your-data">Preparing your data<a class="anchor" aria-label="anchor" href="#preparing-your-data"></a>
 </h3>
-<p>Previous to running the duplication rate analysis, the BAM file with your mapped reads has to be duplicate marked with a like Picard, or the faster BamUtil dedup BioBamBam. The <em>dupRadar</em> package only works with duplicate marked BAM files.</p>
-<p>If you do not have/want a duplication marking step in your default pipeline, the <em>dupRadar</em> package includes, for your convenience, wrappers to properly call some of these tools from your R session. Note that you still have to supply the path of the dupmarker installation though:</p>
+<p>Previous to running the duplication rate analysis, the BAM file with
+your mapped reads has to be duplicate marked with a like Picard, or the
+faster BamUtil dedup BioBamBam. The <em>dupRadar</em> package only works
+with duplicate marked BAM files.</p>
+<p>If you do not have/want a duplication marking step in your default
+pipeline, the <em>dupRadar</em> package includes, for your convenience,
+wrappers to properly call some of these tools from your R session. Note
+that you still have to supply the path of the dupmarker installation
+though:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">dupRadar</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">dupRadar</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now, simply call the wrapper:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># call the duplicate marker and analyze the reads</span>
-<span class="va">bamDuprm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/markDuplicates.html">markDuplicates</a></span><span class="op">(</span>dupremover<span class="op">=</span><span class="st">"bamutil"</span>,
-               bam<span class="op">=</span><span class="st">"test.bam"</span>,
-               path<span class="op">=</span><span class="st">"/opt/bamUtil-master/bin"</span>,
-               rminput<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>Simply specify which tool to use, the path where this tool is installed, and the input bam file to be analyzed. After marking duplicates, it’s safe to remove to original BAM file in order to save space.</p>
+<code class="sourceCode R"><span><span class="co"># call the duplicate marker and analyze the reads</span></span>
+<span><span class="va">bamDuprm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/markDuplicates.html">markDuplicates</a></span><span class="op">(</span>dupremover<span class="op">=</span><span class="st">"bamutil"</span>,</span>
+<span>               bam<span class="op">=</span><span class="st">"test.bam"</span>,</span>
+<span>               path<span class="op">=</span><span class="st">"/opt/bamUtil-master/bin"</span>,</span>
+<span>               rminput<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Simply specify which tool to use, the path where this tool is
+installed, and the input bam file to be analyzed. After marking
+duplicates, it’s safe to remove to original BAM file in order to save
+space.</p>
 <p>The <em>dupRadar</em> package currently comes with support for:</p>
 <ul>
-<li><a href="http://broadinstitute.github.io/picard" class="external-link">Picard MarkDuplicates</a></li>
+<li><a href="http://broadinstitute.github.io/picard" class="external-link">Picard
+MarkDuplicates</a></li>
 <li><a href="http://genome.sph.umich.edu/wiki/BamUtil" class="external-link">BamUtil</a></li>
 </ul>
-<p>After the BAM file is marked for duplicates, dupRadar is ready to analyze how the duplication rate is related with the estimated gene expression levels.</p>
+<p>After the BAM file is marked for duplicates, dupRadar is ready to
+analyze how the duplication rate is related with the estimated gene
+expression levels.</p>
 </div>
 <div class="section level3">
 <h3 id="a-gtf-file">A GTF file<a class="anchor" aria-label="anchor" href="#a-gtf-file"></a>
 </h3>
-<p>Unless there is any specific reason, dupRadar can use the same GTF file that will be later used to count the reads falling on features.</p>
-<p>A valid GTF file can be obtained from UCSC, Ensembl, the iGenomes or other projects.</p>
-<p>Note that the resulting duplication rate plots depend on the GTF annotation used. GTF files from the gencode projects result in a less clear picture of duplication rates, as there are many more features and feature types annotated, which overlap heavily as well. In some cases creating the plots only using subsets of gencode annotation files (e.g. just protein coding genes) serve the QC purpose of this tool better.</p>
+<p>Unless there is any specific reason, dupRadar can use the same GTF
+file that will be later used to count the reads falling on features.</p>
+<p>A valid GTF file can be obtained from UCSC, Ensembl, the iGenomes or
+other projects.</p>
+<p>Note that the resulting duplication rate plots depend on the GTF
+annotation used. GTF files from the gencode projects result in a less
+clear picture of duplication rates, as there are many more features and
+feature types annotated, which overlap heavily as well. In some cases
+creating the plots only using subsets of gencode annotation files
+(e.g. just protein coding genes) serve the QC purpose of this tool
+better.</p>
 </div>
 <div class="section level3">
 <h3 id="annotationhub-as-a-source-of-gtf-files">AnnotationHub as a source of GTF files<a class="anchor" aria-label="anchor" href="#annotationhub-as-a-source-of-gtf-files"></a>
 </h3>
-<p>The Bioconductor <em>AnnotationHub</em> package provides an alternative approach to obtain annotation in GTF format from entities such as Ensembl, UCSC, ENCODE, and 1000 Genomes projects.</p>
-<p>This is partly outlined in the AnnotationHub ‘HOWTO’ vignette section “Ensembl GTF and FASTA files for TxDb gene models and sequence queries”; for the Takifugu example, the downloaded GTF file is available from the cache.</p>
+<p>The Bioconductor <em>AnnotationHub</em> package provides an
+alternative approach to obtain annotation in GTF format from entities
+such as Ensembl, UCSC, ENCODE, and 1000 Genomes projects.</p>
+<p>This is partly outlined in the AnnotationHub ‘HOWTO’ vignette section
+“Ensembl GTF and FASTA files for TxDb gene models and sequence queries”;
+for the Takifugu example, the downloaded GTF file is available from the
+cache.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">AnnotationHub</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">ah</span> <span class="op">=</span> <span class="fu">AnnotationHub</span><span class="op">(</span><span class="op">)</span>
-    <span class="fu">query</span><span class="op">(</span><span class="va">ah</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"80"</span>, <span class="st">"Takifugu"</span>, <span class="st">"gtf"</span><span class="op">)</span><span class="op">)</span>    <span class="co"># discovery</span>
-    <span class="fu">cache</span><span class="op">(</span><span class="va">ah</span><span class="op">[</span><span class="st">"AH47101"</span><span class="op">]</span><span class="op">)</span>                                <span class="co"># retrieve / file path</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">AnnotationHub</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">ah</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">AnnotationHub</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">query</a></span><span class="op">(</span><span class="va">ah</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ensembl"</span>, <span class="st">"80"</span>, <span class="st">"Takifugu"</span>, <span class="st">"gtf"</span><span class="op">)</span><span class="op">)</span>    <span class="co"># discovery</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">cache</a></span><span class="op">(</span><span class="va">ah</span><span class="op">[</span><span class="st">"AH47101"</span><span class="op">]</span><span class="op">)</span>                                <span class="co"># retrieve / file path</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<pre><code><span><span class="co">##                                                  AH47101 </span></span>
+<span><span class="co">## "/home/sergi/.cache/R/AnnotationHub/27ae865568bdd_52579"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="duprate-demo-data">dupRate demo data<a class="anchor" aria-label="anchor" href="#duprate-demo-data"></a>
 </h2>
-<p>In the package we include two precomputed duplication matrices for two RNASeq experiments used as examples of a good and a failed (in terms of high redundancy of reads) experiments. The experiments come from the ENCODE project, as a source of a wide variety of protocols, library types and sequencing facilities.</p>
+<p>In the package we include two precomputed duplication matrices for
+two RNASeq experiments used as examples of a good and a failed (in terms
+of high redundancy of reads) experiments. The experiments come from the
+ENCODE project, as a source of a wide variety of protocols, library
+types and sequencing facilities.</p>
 <p>Load the example dataset with:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">dupRadar_examples</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">dupRadar_examples</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="the-duplication-rate-analysis">The duplication rate analysis<a class="anchor" aria-label="anchor" href="#the-duplication-rate-analysis"></a>
 </h2>
-<p>The analysis requires some info about the sequencing run and library preparation protocol:</p>
+<p>The analysis requires some info about the sequencing run and library
+preparation protocol:</p>
 <ul>
-<li>The strandess information about the reads: is the sequencing strand specific? if so, are the reads reversely sequenced?</li>
+<li>The strandess information about the reads: is the sequencing strand
+specific? if so, are the reads reversely sequenced?</li>
 <li>Are the reads paired, or single?</li>
 </ul>
-<p>Due to its phenomenal performance, internally we use the featureCounts() function from the Bioconductor <em><a href="https://bioconductor.org/packages/3.15/Rsubread" class="external-link">Rsubread</a></em> package, which also supports multiple threads.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The call parameters: </span>
-<span class="va">bamDuprm</span> <span class="op">&lt;-</span> <span class="st">"test_duprm.bam"</span>    <span class="co"># the duplicate marked bam file</span>
-<span class="va">gtf</span> <span class="op">&lt;-</span> <span class="st">"genes.gtf"</span>  <span class="co"># the gene model</span>
-<span class="va">stranded</span> <span class="op">&lt;-</span> <span class="fl">2</span>       <span class="co"># '0' (unstranded), '1' (stranded) and '2' (reversely stranded)</span>
-<span class="va">paired</span>   <span class="op">&lt;-</span> <span class="cn">FALSE</span>   <span class="co"># is the library paired end?</span>
-<span class="va">threads</span>  <span class="op">&lt;-</span> <span class="fl">4</span>       <span class="co"># number of threads to be used</span>
-
-<span class="co"># Duplication rate analysis</span>
-<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyzeDuprates.html">analyzeDuprates</a></span><span class="op">(</span><span class="va">bamDuprm</span>,<span class="va">gtf</span>,<span class="va">stranded</span>,<span class="va">paired</span>,<span class="va">threads</span><span class="op">)</span></code></pre></div>
-<p>The duplication matrix contains read counts in different scenarios and RPK and RPKM values for every gene.</p>
+<p>Due to its phenomenal performance, internally we use the
+featureCounts() function from the Bioconductor <em><a href="https://bioconductor.org/packages/3.17/Rsubread" class="external-link">Rsubread</a></em>
+package, which also supports multiple threads.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The call parameters: </span></span>
+<span><span class="va">bamDuprm</span> <span class="op">&lt;-</span> <span class="st">"test_duprm.bam"</span>    <span class="co"># the duplicate marked bam file</span></span>
+<span><span class="va">gtf</span> <span class="op">&lt;-</span> <span class="st">"genes.gtf"</span>  <span class="co"># the gene model</span></span>
+<span><span class="va">stranded</span> <span class="op">&lt;-</span> <span class="fl">2</span>       <span class="co"># '0' (unstranded), '1' (stranded) and '2' (reversely stranded)</span></span>
+<span><span class="va">paired</span>   <span class="op">&lt;-</span> <span class="cn">FALSE</span>   <span class="co"># is the library paired end?</span></span>
+<span><span class="va">threads</span>  <span class="op">&lt;-</span> <span class="fl">4</span>       <span class="co"># number of threads to be used</span></span>
+<span></span>
+<span><span class="co"># Duplication rate analysis</span></span>
+<span><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyzeDuprates.html">analyzeDuprates</a></span><span class="op">(</span><span class="va">bamDuprm</span>,<span class="va">gtf</span>,<span class="va">stranded</span>,<span class="va">paired</span>,<span class="va">threads</span><span class="op">)</span></span></code></pre></div>
+<p>The duplication matrix contains read counts in different scenarios
+and RPK and RPKM values for every gene.</p>
 <table class="table">
 <colgroup>
 <col width="4%">
@@ -303,375 +367,482 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="section level2">
 <h2 id="plotting-and-interpretation">Plotting and interpretation<a class="anchor" aria-label="anchor" href="#plotting-and-interpretation"></a>
 </h2>
-<p>The number of reads per base assigned to a gene in an ideal RNA-Seq data set is expected to be proportional to the abundance of its transcripts in the sample. For lowly expressed genes we expect read duplication to happen rarely by chance, while for highly expressed genes - depending on the total sequencing depth - we expect read duplication to happen often.</p>
-<p>A good way to learn if a dataset is following this trend is by relating the normalized number of counts per gene (RPK, as a quantification of the gene expression) and the fraction represented by duplicated reads.</p>
-<p>The <em>dupRadar</em> offers several functions to assess this relationship. The most prominent may be the 2d density scatter plot:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## make a duprate plot (blue cloud)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>       <span class="co"># a good looking plot</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"good experiment"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span><span class="op">)</span>   <span class="co"># a dataset with duplication problems</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"duplication problems"</span><span class="op">)</span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-5-1.png" width="1344"></p>
+<p>The number of reads per base assigned to a gene in an ideal RNA-Seq
+data set is expected to be proportional to the abundance of its
+transcripts in the sample. For lowly expressed genes we expect read
+duplication to happen rarely by chance, while for highly expressed genes
+- depending on the total sequencing depth - we expect read duplication
+to happen often.</p>
+<p>A good way to learn if a dataset is following this trend is by
+relating the normalized number of counts per gene (RPK, as a
+quantification of the gene expression) and the fraction represented by
+duplicated reads.</p>
+<p>The <em>dupRadar</em> offers several functions to assess this
+relationship. The most prominent may be the 2d density scatter plot:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## duprate boxplot</span>
-<span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>        <span class="co"># a good looking plot</span>
-<span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span><span class="op">)</span>    <span class="co"># a dataset with duplication problems</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## make a duprate plot (blue cloud)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>       <span class="co"># a good looking plot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"good experiment"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span><span class="op">)</span>   <span class="co"># a dataset with duplication problems</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"duplication problems"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-5-1.png" width="1344"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## duprate boxplot</span></span>
+<span><span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>        <span class="co"># a good looking plot</span></span>
+<span><span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span><span class="op">)</span>    <span class="co"># a dataset with duplication problems</span></span></code></pre></div>
 <p><img src="dupRadar_files/figure-html/unnamed-chunk-5-2.png" width="1344"></p>
-<p>The <em>duprateExpDensPlot</em> has helper lines at the threshold of 1 read/bp and at 0.5 RPKM. Moreover by default a generalized linear model is fit to the data and overplotted (see also below).</p>
+<p>The <em>duprateExpDensPlot</em> has helper lines at the threshold of
+1 read/bp and at 0.5 RPKM. Moreover by default a generalized linear
+model is fit to the data and overplotted (see also below).</p>
 <div class="section level3">
 <h3 id="fitting-a-model-into-the-data">Fitting a model into the data<a class="anchor" aria-label="anchor" href="#fitting-a-model-into-the-data"></a>
 </h3>
-<p>To summarize the relationship between duplication rates and gene expression, we propose fitting a logistic regression curve onto the data. With the coefficients of the fitted model, one can get an idea of the initial duplication rate at low read counts (Intercept) and the progression of the duplication rate along with the progression of the read counts (Slope).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p>To summarize the relationship between duplication rates and gene
+expression, we propose fitting a logistic regression curve onto the
+data. With the coefficients of the fitted model, one can get an idea of
+the initial duplication rate at low read counts (Intercept) and the
+progression of the duplication rate along with the progression of the
+read counts (Slope).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># or, just to get the fitted model without plot</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/duprateExpFit.html">duprateExpFit</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"duprate at low read counts: "</span>,<span class="va">fit</span><span class="op">$</span><span class="va">intercept</span>,<span class="st">"\n"</span>,
-    <span class="st">"progression of the duplication rate: "</span>,<span class="va">fit</span><span class="op">$</span><span class="va">slope</span>,fill<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## duprate at low read counts:  0.04075061 </span>
-<span class="co">##  progression of the duplication rate:  </span>
-<span class="co">## 3.186793</span></code></pre>
-<p>Our main use case for that function is the condensation of the plots into quality metrics that can be used for automatic flagging of possibly problematic samples in large experiments or aggregation with other quality metrics in large tables to analyse interdependencies.</p>
-<p>The <em>duprateExpBoxplot</em> plot shows the range of the duplication rates at 5% bins (default) along the distribution of RPK gene counts. The x-axis displays the quantile of the RPK distribution, and the average RPK of the genes contained in this quantile.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># or, just to get the fitted model without plot</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/duprateExpFit.html">duprateExpFit</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"duprate at low read counts: "</span>,<span class="va">fit</span><span class="op">$</span><span class="va">intercept</span>,<span class="st">"\n"</span>,</span>
+<span>    <span class="st">"progression of the duplication rate: "</span>,<span class="va">fit</span><span class="op">$</span><span class="va">slope</span>,fill<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## duprate at low read counts:  0.04075061 </span></span>
+<span><span class="co">##  progression of the duplication rate:  </span></span>
+<span><span class="co">## 3.186793</span></span></code></pre>
+<p>Our main use case for that function is the condensation of the plots
+into quality metrics that can be used for automatic flagging of possibly
+problematic samples in large experiments or aggregation with other
+quality metrics in large tables to analyse interdependencies.</p>
+<p>The <em>duprateExpBoxplot</em> plot shows the range of the
+duplication rates at 5% bins (default) along the distribution of RPK
+gene counts. The x-axis displays the quantile of the RPK distribution,
+and the average RPK of the genes contained in this quantile.</p>
 <p>Individual genes can be identified in the plot:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## INTERACTIVE: identify single points on screen (name="ID" column of dm)</span>
-<span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>       <span class="co"># a good looking plot</span>
-<span class="fu"><a href="../reference/duprateExpIdentify.html">duprateExpIdentify</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
-<p>One can also call the function <em>duprateExpPlot</em> to get smooth color density representation of the same data:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span>,<span class="st">"green"</span>,<span class="st">"yellow"</span>,<span class="st">"red"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span>,addLegend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span>,addLegend<span class="op">=</span><span class="cn">FALSE</span>,nrpoints<span class="op">=</span><span class="fl">10</span>,nbin<span class="op">=</span><span class="fl">500</span>,colramp<span class="op">=</span><span class="va">cols</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## INTERACTIVE: identify single points on screen (name="ID" column of dm)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>       <span class="co"># a good looking plot</span></span>
+<span><span class="fu"><a href="../reference/duprateExpIdentify.html">duprateExpIdentify</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
+<p>One can also call the function <em>duprateExpPlot</em> to get smooth
+color density representation of the same data:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span>,<span class="st">"green"</span>,<span class="st">"yellow"</span>,<span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span>,addLegend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span>,addLegend<span class="op">=</span><span class="cn">FALSE</span>,nrpoints<span class="op">=</span><span class="fl">10</span>,nbin<span class="op">=</span><span class="fl">500</span>,colramp<span class="op">=</span><span class="va">cols</span><span class="op">)</span></span></code></pre></div>
 <p><img src="dupRadar_files/figure-html/unnamed-chunk-8-1.png" width="1344"></p>
-<p>Any further parm sent to the <em>duprateExpPlot</em> is also sent to the <em>smoothScatter</em> function.</p>
+<p>Any further parm sent to the <em>duprateExpPlot</em> is also sent to
+the <em>smoothScatter</em> function.</p>
 </div>
 <div class="section level3">
 <h3 id="comparing-the-fitted-parameters-to-other-datasets">Comparing the fitted parameters to other datasets<a class="anchor" aria-label="anchor" href="#comparing-the-fitted-parameters-to-other-datasets"></a>
 </h3>
-<p>The parameters of the fitted model may mean very little (or just nothing) for many, unless there’s other data to compare with. We provide the pre-computed duplication matrices for all the RNA-Seq experiments publicly available from the ENCODE project, for human and mouse.</p>
+<p>The parameters of the fitted model may mean very little (or just
+nothing) for many, unless there’s other data to compare with. We provide
+the pre-computed duplication matrices for all the RNA-Seq experiments
+publicly available from the ENCODE project, for human and mouse.</p>
 <div class="figure">
-<img src="figures/encode.svg" alt="alt text"><p class="caption">alt text</p>
+<img src="figures/encode.svg" alt=""><p class="caption">alt text</p>
 </div>
-<p>With the experience from the ENCODE datasets, we expect from single read experiments little duplication at low RPKM (low <strong>intercept</strong>) rapidly rising because of natural duplication (high <strong>slope</strong>). In contrast, paired-end experiments have a more mild rising of the natural duplication (low <strong>slope</strong>) due to having higher diversity of reads pairs since pairs with same start may still have different end.</p>
-<p>The common denominator for both designs is the importance of having a low intercept, suggesting that duplication rate at lowly expressed genes may serve as a quality measure.</p>
+<p>With the experience from the ENCODE datasets, we expect from single
+read experiments little duplication at low RPKM (low
+<strong>intercept</strong>) rapidly rising because of natural
+duplication (high <strong>slope</strong>). In contrast, paired-end
+experiments have a more mild rising of the natural duplication (low
+<strong>slope</strong>) due to having higher diversity of reads pairs
+since pairs with same start may still have different end.</p>
+<p>The common denominator for both designs is the importance of having a
+low intercept, suggesting that duplication rate at lowly expressed genes
+may serve as a quality measure.</p>
 <p>All the pre-computed duplication matrices are available in the <a href="https://github.com/ssayols/dupRadar" class="external-link">dupRadar Github site</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="other-plots">Other plots<a class="anchor" aria-label="anchor" href="#other-plots"></a>
 </h3>
-<p><strong>CAVEAT: Sometimes in discussions duplicate reads (i.e. two physically different reads are mapped to the exact same position) and multi-mapping reads (i.e. a single read is mapped to two or more locations in the genome) are mixed up. <em>dupRadar</em>’s main focus are PCR duplicates in RNA-Seq. However internally we keep track of unique mappers and multimappers, and we use both in some of the examples, to illustrate use cases of our package beyond the main aim. Multi-mapping reads are completely independent of PCR duplicates.</strong></p>
-<p>Apart from the plots relating RPK and duplication rate, the <em>dupRadar</em> package provides some other useful plots to extract information about the gene expression levels.</p>
-<p>An interesting quality metric are the fraction of reads taken up by groups of genes binned by 5% expression levels.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/readcountExpBoxplot.html">readcountExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<p>In the example we see that the 5% of highest expressed genes in our sample data set take up around 60% of all reads.</p>
-<p>The distribution of RPK values per genes can be plotted with:</p>
+<p><strong>CAVEAT: Sometimes in discussions duplicate reads (i.e. two
+physically different reads are mapped to the exact same position) and
+multi-mapping reads (i.e. a single read is mapped to two or more
+locations in the genome) are mixed up. <em>dupRadar</em>’s main focus
+are PCR duplicates in RNA-Seq. However internally we keep track of
+unique mappers and multimappers, and we use both in some of the
+examples, to illustrate use cases of our package beyond the main aim.
+Multi-mapping reads are completely independent of PCR
+duplicates.</strong></p>
+<p>Apart from the plots relating RPK and duplication rate, the
+<em>dupRadar</em> package provides some other useful plots to extract
+information about the gene expression levels.</p>
+<p>An interesting quality metric are the fraction of reads taken up by
+groups of genes binned by 5% expression levels.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/expressionHist.html">expressionHist</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/readcountExpBoxplot.html">readcountExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p>In the example we see that the 5% of highest expressed genes in our
+sample data set take up around 60% of all reads.</p>
+<p>The distribution of RPK values per genes can be plotted with:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/expressionHist.html">expressionHist</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
 <p><img src="dupRadar_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
-<p>This would help in identifying skewed distributions with unusual amount of lowly expressed genes, or to detect no consensus between replicates.</p>
+<p>This would help in identifying skewed distributions with unusual
+amount of lowly expressed genes, or to detect no consensus between
+replicates.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="other-information-deduced-from-the-data">Other information deduced from the data<a class="anchor" aria-label="anchor" href="#other-information-deduced-from-the-data"></a>
 </h2>
-<p>The duplication rate matrix calculated by the function <em>analyzeDuprates()</em> contains some useful information about the sequencing experiment, that can be used to assess the quality of the data.</p>
+<p>The duplication rate matrix calculated by the function
+<em>analyzeDuprates()</em> contains some useful information about the
+sequencing experiment, that can be used to assess the quality of the
+data.</p>
 <div class="section level3">
 <h3 id="fraction-of-multimappers-per-gene">Fraction of multimappers per gene<a class="anchor" aria-label="anchor" href="#fraction-of-multimappers-per-gene"></a>
 </h3>
-<p>Analogous to per gene duplication rate, the fraction of mutimappers can be easily calculated fom the duplication matrix.</p>
-<p>Taking the counts from the column <em>allCountsMulti</em>, and substracting form it the counts from the column <em>allCounts</em>, one can get the total number of multihits. Thus, the fraction of multihits per gene can be calculating then dividing by <em>allCountsMulti</em>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># calculate the fraction of multimappers per gene</span>
-<span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">allCountsMulti</span> <span class="op">-</span> <span class="va">dm</span><span class="op">$</span><span class="va">allCounts</span><span class="op">)</span> <span class="op">/</span> <span class="va">dm</span><span class="op">$</span><span class="va">allCountsMulti</span>
-<span class="co"># how many genes are exclusively covered by multimappers</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span> <span class="op">==</span> <span class="fl">1</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 295</span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># and how many have an RPKM (including multimappers) &gt; 5</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">dm</span><span class="op">$</span><span class="va">RPKMMulti</span> <span class="op">&gt;</span> <span class="fl">5</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 8</span></code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># and which are they?</span>
-<span class="va">dm</span><span class="op">[</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">dm</span><span class="op">$</span><span class="va">RPKMMulti</span> <span class="op">&gt;</span> <span class="fl">5</span>, <span class="st">"ID"</span><span class="op">]</span></code></pre></div>
-<pre><code><span class="co">## [1] GPR89C       LOC728643    LOC606724    TBC1D3C      TBC1D3H     </span>
-<span class="co">## [6] MIR650       LOC100133050 HIST1H4J    </span>
-<span class="co">## 23228 Levels: 1/2-SBSRNA4 A1BG A1BG-AS1 A1CF A2LD1 A2M A2ML1 A2MP1 ... ZZZ3</span></code></pre>
+<p>Analogous to per gene duplication rate, the fraction of mutimappers
+can be easily calculated fom the duplication matrix.</p>
+<p>Taking the counts from the column <em>allCountsMulti</em>, and
+substracting form it the counts from the column <em>allCounts</em>, one
+can get the total number of multihits. Thus, the fraction of multihits
+per gene can be calculating then dividing by
+<em>allCountsMulti</em>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># calculate the fraction of multimappers per gene</span></span>
+<span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">allCountsMulti</span> <span class="op">-</span> <span class="va">dm</span><span class="op">$</span><span class="va">allCounts</span><span class="op">)</span> <span class="op">/</span> <span class="va">dm</span><span class="op">$</span><span class="va">allCountsMulti</span></span>
+<span><span class="co"># how many genes are exclusively covered by multimappers</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span> <span class="op">==</span> <span class="fl">1</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 295</span></span></code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># and how many have an RPKM (including multimappers) &gt; 5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">dm</span><span class="op">$</span><span class="va">RPKMMulti</span> <span class="op">&gt;</span> <span class="fl">5</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 8</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># and which are they?</span></span>
+<span><span class="va">dm</span><span class="op">[</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">dm</span><span class="op">$</span><span class="va">RPKMMulti</span> <span class="op">&gt;</span> <span class="fl">5</span>, <span class="st">"ID"</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] GPR89C       LOC728643    LOC606724    TBC1D3C      TBC1D3H     </span></span>
+<span><span class="co">## [6] MIR650       LOC100133050 HIST1H4J    </span></span>
+<span><span class="co">## 23228 Levels: 1/2-SBSRNA4 A1BG A1BG-AS1 A1CF A2LD1 A2M A2ML1 A2MP1 ... ZZZ3</span></span></code></pre>
 <p>We can also generate an overall picture about less extreme cases:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span>, 
-     breaks<span class="op">=</span><span class="fl">50</span>, 
-     col<span class="op">=</span><span class="st">"red"</span>, 
-     main<span class="op">=</span><span class="st">"Frequency of multimapping rates"</span>, 
-     xlab<span class="op">=</span><span class="st">"Multimapping rate per gene"</span>, 
-     ylab<span class="op">=</span><span class="st">"Frequency"</span><span class="op">)</span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>Also the direct comparison of reads per kilobase between uniquely and multimappers is possible.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># comparison of multi-mapping RPK and uniquely-mapping RPK</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPK</span><span class="op">)</span>, 
-     <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPKMulti</span><span class="op">)</span>, 
-     xlab<span class="op">=</span><span class="st">"Reads per kb (uniquely mapping reads only)"</span>,
-     ylab<span class="op">=</span><span class="st">"Reads per kb (all including multimappers, non-weighted)"</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">mhRate</span>, </span>
+<span>     breaks<span class="op">=</span><span class="fl">50</span>, </span>
+<span>     col<span class="op">=</span><span class="st">"red"</span>, </span>
+<span>     main<span class="op">=</span><span class="st">"Frequency of multimapping rates"</span>, </span>
+<span>     xlab<span class="op">=</span><span class="st">"Multimapping rate per gene"</span>, </span>
+<span>     ylab<span class="op">=</span><span class="st">"Frequency"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p>Also the direct comparison of reads per kilobase between uniquely and
+multimappers is possible.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># comparison of multi-mapping RPK and uniquely-mapping RPK</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPK</span><span class="op">)</span>, </span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPKMulti</span><span class="op">)</span>, </span>
+<span>     xlab<span class="op">=</span><span class="st">"Reads per kb (uniquely mapping reads only)"</span>,</span>
+<span>     ylab<span class="op">=</span><span class="st">"Reads per kb (all including multimappers, non-weighted)"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="dupRadar_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <p>Use with identify() to annotate interesting cases interactively.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/identify.html" class="external-link">identify</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPK</span><span class="op">)</span>, 
-         <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPKMulti</span><span class="op">)</span>,
-     labels<span class="op">=</span><span class="va">dm</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/identify.html" class="external-link">identify</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPK</span><span class="op">)</span>, </span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPKMulti</span><span class="op">)</span>,</span>
+<span>     labels<span class="op">=</span><span class="va">dm</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="connection-between-possible-pcr-artefacts-and-gc-content">Connection between possible PCR artefacts and GC content<a class="anchor" aria-label="anchor" href="#connection-between-possible-pcr-artefacts-and-gc-content"></a>
 </h3>
-<p>In some cases we wondered about influence of GC content on PCR artefacts. An easy way to check using our <em>dupRadar</em> package in conjunction with <em>biomaRt</em> is demonstrated in the following. For simplicity we use our demo data here in which we <em>do not</em> see a big influence.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">dupRadar</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">biomaRt</span><span class="op">)</span>
-
-<span class="co">## for detailed explanations on biomaRt, please see the respective</span>
-<span class="co">## vignette</span>
-
-<span class="co">## set up biomart connection for mouse (needs internet connection)</span>
-<span class="va">ensm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biomaRt/man/useMart.html" class="external-link">useMart</a></span><span class="op">(</span><span class="st">"ensembl"</span><span class="op">)</span>
-<span class="va">ensm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biomaRt/man/useDataset.html" class="external-link">useDataset</a></span><span class="op">(</span><span class="st">"mmusculus_gene_ensembl"</span>, mart<span class="op">=</span><span class="va">ensm</span><span class="op">)</span>
-
-<span class="co">## get a table which has the gene GC content for the IDs that have been</span>
-<span class="co">## used to generate the table (depends on the GTF annotation that you</span>
-<span class="co">## use)</span>
-<span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biomaRt/man/getBM.html" class="external-link">getBM</a></span><span class="op">(</span>attributes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mgi_symbol"</span>, <span class="st">"percentage_gc_content"</span><span class="op">)</span>,
-            values<span class="op">=</span><span class="cn">TRUE</span>, mart<span class="op">=</span><span class="va">ensm</span><span class="op">)</span>
-
-<span class="co">## create a GC vector with IDs as element names</span>
-<span class="va">mgi.gc</span> <span class="op">&lt;-</span> <span class="va">tr</span><span class="op">$</span><span class="va">percentage_gc_content</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mgi.gc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tr</span><span class="op">$</span><span class="va">mgi_symbol</span>
-
-<span class="co">## using dm demo duplication matrix that comes with the package</span>
-<span class="co">## add GC content to our demo data and keep only subset for which we can</span>
-<span class="co">## retrieve data</span>
-<span class="va">keep</span> <span class="op">&lt;-</span> <span class="va">dm</span><span class="op">$</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">tr</span><span class="op">$</span><span class="va">mgi_symbol</span>
-<span class="va">dm.gc</span> <span class="op">&lt;-</span> <span class="va">dm</span><span class="op">[</span><span class="va">keep</span>,<span class="op">]</span>
-<span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span> <span class="op">&lt;-</span> <span class="va">mgi.gc</span><span class="op">[</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">ID</span><span class="op">]</span>
-
-<span class="co">## check distribution of annotated gene GC content (in %)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span>, main<span class="op">=</span><span class="st">"Gene GC content"</span>, ylab<span class="op">=</span><span class="st">"% GC"</span><span class="op">)</span></code></pre></div>
-<div class="figure">
-<img src="figures/GCcontent.svg" alt="alt text"><p class="caption">alt text</p>
-</div>
-<p>Now we can compare the dependence of duplication rate on expression level independently for below and above median GC genes (and to mention again, in this data set we don’t have a big difference).</p>
+<p>In some cases we wondered about influence of GC content on PCR
+artefacts. An easy way to check using our <em>dupRadar</em> package in
+conjunction with <em>biomaRt</em> is demonstrated in the following. For
+simplicity we use our demo data here in which we <em>do not</em> see a
+big influence.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co">## below median GC genes</span>
-<span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span><span class="va">dm.gc</span><span class="op">[</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span><span class="op">&lt;=</span><span class="fl">45</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"below median GC genes"</span><span class="op">)</span>
-
-<span class="co">## above median GC genes</span>
-<span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span><span class="va">dm.gc</span><span class="op">[</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span><span class="op">&gt;=</span><span class="fl">45</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"above median GC genes"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">dupRadar</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/grimbough/biomaRt" class="external-link">biomaRt</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## for detailed explanations on biomaRt, please see the respective</span></span>
+<span><span class="co">## vignette</span></span>
+<span></span>
+<span><span class="co">## set up biomart connection for mouse (needs internet connection)</span></span>
+<span><span class="va">ensm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biomaRt/man/useMart.html" class="external-link">useMart</a></span><span class="op">(</span><span class="st">"ensembl"</span><span class="op">)</span></span>
+<span><span class="va">ensm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biomaRt/man/useDataset.html" class="external-link">useDataset</a></span><span class="op">(</span><span class="st">"mmusculus_gene_ensembl"</span>, mart<span class="op">=</span><span class="va">ensm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## get a table which has the gene GC content for the IDs that have been</span></span>
+<span><span class="co">## used to generate the table (depends on the GTF annotation that you</span></span>
+<span><span class="co">## use)</span></span>
+<span><span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/biomaRt/man/getBM.html" class="external-link">getBM</a></span><span class="op">(</span>attributes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mgi_symbol"</span>, <span class="st">"percentage_gc_content"</span><span class="op">)</span>,</span>
+<span>            values<span class="op">=</span><span class="cn">TRUE</span>, mart<span class="op">=</span><span class="va">ensm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## create a GC vector with IDs as element names</span></span>
+<span><span class="va">mgi.gc</span> <span class="op">&lt;-</span> <span class="va">tr</span><span class="op">$</span><span class="va">percentage_gc_content</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mgi.gc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tr</span><span class="op">$</span><span class="va">mgi_symbol</span></span>
+<span></span>
+<span><span class="co">## using dm demo duplication matrix that comes with the package</span></span>
+<span><span class="co">## add GC content to our demo data and keep only subset for which we can</span></span>
+<span><span class="co">## retrieve data</span></span>
+<span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="va">dm</span><span class="op">$</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">tr</span><span class="op">$</span><span class="va">mgi_symbol</span></span>
+<span><span class="va">dm.gc</span> <span class="op">&lt;-</span> <span class="va">dm</span><span class="op">[</span><span class="va">keep</span>,<span class="op">]</span></span>
+<span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span> <span class="op">&lt;-</span> <span class="va">mgi.gc</span><span class="op">[</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">ID</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## check distribution of annotated gene GC content (in %)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span>, main<span class="op">=</span><span class="st">"Gene GC content"</span>, ylab<span class="op">=</span><span class="st">"% GC"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figures/GCdependence.png" alt="alt text"><p class="caption">alt text</p>
+<img src="figures/GCcontent.svg" alt=""><p class="caption">alt text</p>
+</div>
+<p>Now we can compare the dependence of duplication rate on expression
+level independently for below and above median GC genes (and to mention
+again, in this data set we don’t have a big difference).</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## below median GC genes</span></span>
+<span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span><span class="va">dm.gc</span><span class="op">[</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span><span class="op">&lt;=</span><span class="fl">45</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"below median GC genes"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## above median GC genes</span></span>
+<span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span><span class="va">dm.gc</span><span class="op">[</span><span class="va">dm.gc</span><span class="op">$</span><span class="va">gc</span><span class="op">&gt;=</span><span class="fl">45</span>,<span class="op">]</span>, main<span class="op">=</span><span class="st">"above median GC genes"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="figures/GCdependence.png" alt=""><p class="caption">alt text</p>
 </div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>The <em>dupRadar</em> package provides a framework for the analysis of duplicate rates in RNAseq datasets. In addition, it includes a set of convenient wrappers to correctly call some common tools used for marking PCR duplicated reads in the BAM file. It’s shipped as Bioconductor package in order to offer a common framework for all the tools involved, and simplify its use.</p>
+<p>The <em>dupRadar</em> package provides a framework for the analysis
+of duplicate rates in RNAseq datasets. In addition, it includes a set of
+convenient wrappers to correctly call some common tools used for marking
+PCR duplicated reads in the BAM file. It’s shipped as Bioconductor
+package in order to offer a common framework for all the tools involved,
+and simplify its use.</p>
 </div>
 <div class="section level2">
 <h2 id="including-dupradar-into-pipelines">Including dupRadar into pipelines<a class="anchor" aria-label="anchor" href="#including-dupradar-into-pipelines"></a>
 </h2>
-<p>To include dupRadar as a single step in an RNA-Seq pipeline, integration into a short R-script can be done like in the following:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#!/usr/bin/env Rscript</span>
-
-<span class="co">########################################</span>
-<span class="co">##</span>
-<span class="co">## dupRadar shell script</span>
-<span class="co">## call dupRadar R package from the shell for </span>
-<span class="co">## easy integration into pipelines</span>
-<span class="co">##</span>
-<span class="co">## Holger Klein &amp; Sergi Sayols</span>
-<span class="co">##</span>
-<span class="co">## https://github.com/ssayols/dupRadar</span>
-<span class="co">##</span>
-<span class="co">## input:</span>
-<span class="co">## - _duplicate marked_ bam file</span>
-<span class="co">## - gtf file</span>
-<span class="co">## - parameters for duplication counting routine:</span>
-<span class="co">##   stranded, paired, outdir, threads.</span>
-<span class="co">##</span>
-<span class="co">########################################</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">dupRadar</a></span><span class="op">)</span>
-
-<span class="co">####################</span>
-<span class="co">##</span>
-<span class="co">## get name patterns from command line</span>
-<span class="co">##</span>
-<span class="va">args</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/commandArgs.html" class="external-link">commandArgs</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co">## the bam file to analyse</span>
-<span class="va">bam</span> <span class="op">&lt;-</span> <span class="va">args</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="co">## usually, same GTF file as used in htseq-count</span>
-<span class="va">gtf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"gtf="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>
-<span class="co">## no|yes|reverse</span>
-<span class="va">stranded</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"stranded="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>
-<span class="co">## is a paired end experiment</span>
-<span class="va">paired</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"paired="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="co">## output directory</span>
-<span class="va">outdir</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"outdir="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
-<span class="co">## number of threads to be used</span>
-<span class="va">threads</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"threads="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">args</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">{</span> 
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Usage: ./dupRadar.sh &lt;file.bam&gt; &lt;genes.gtf&gt; "</span>,
-               <span class="st">"&lt;stranded=[no|yes|reverse]&gt; paired=[yes|no] "</span>,
-               <span class="st">"outdir=./ threads=1"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> 
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"File"</span>,<span class="va">bam</span>,<span class="st">"does NOT exist"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">gtf</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"File"</span>,<span class="va">gtf</span>,<span class="st">"does NOT exist"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">outdir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> 
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Dir"</span>,<span class="va">outdir</span>,<span class="st">"does NOT exist"</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">stranded</span><span class="op">)</span> <span class="op">|</span> <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"no|yes|reverse"</span>,<span class="va">stranded</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Stranded has to be no|yes|reverse"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">paired</span><span class="op">)</span> <span class="op">|</span> <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"no|yes"</span>,<span class="va">paired</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Paired has to be no|yes"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">threads</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Threads has to be an integer number"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">stranded</span> <span class="op">&lt;-</span> <span class="kw">if</span><span class="op">(</span><span class="va">stranded</span> <span class="op">==</span> <span class="st">"no"</span><span class="op">)</span> <span class="fl">0</span> <span class="kw">else</span> <span class="kw">if</span><span class="op">(</span><span class="va">stranded</span> <span class="op">==</span> <span class="st">"yes"</span><span class="op">)</span> <span class="fl">1</span> <span class="kw">else</span> <span class="fl">2</span>
-
-<span class="co">## end command line parsing</span>
-<span class="co">##</span>
-<span class="co">########################################</span>
-
-<span class="co">########################################</span>
-<span class="co">##</span>
-<span class="co">## analyze duprates and create plots</span>
-<span class="co">##</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Processing file "</span>, <span class="va">bam</span>, <span class="st">" with GTF "</span>, <span class="va">gtf</span>, <span class="st">"\n"</span><span class="op">)</span>
-
-<span class="co">## calculate duplication rate matrix</span>
-<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyzeDuprates.html">analyzeDuprates</a></span><span class="op">(</span><span class="va">bam</span>,
-                      <span class="va">gtf</span>,
-                      <span class="va">stranded</span>,
-                      <span class="op">(</span><span class="va">paired</span> <span class="op">==</span> <span class="st">"yes"</span><span class="op">)</span>,
-                      <span class="va">threads</span><span class="op">)</span>
-
-<span class="co">## produce plots</span>
-
-<span class="co">## duprate vs. expression smooth scatter</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>file<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outdir</span>,<span class="st">"/"</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"(.*)\\.[^.]+"</span>,<span class="st">"\\1"</span>,<span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>,<span class="st">"_dupRadar_drescatter.png"</span><span class="op">)</span>,
-    width<span class="op">=</span><span class="fl">1000</span>, height<span class="op">=</span><span class="fl">1000</span><span class="op">)</span>
-<span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span><span class="va">dm</span>, main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co">## expression histogram</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>file<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outdir</span>,<span class="st">"/"</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"(.*)\\.[^.]+"</span>,<span class="st">"\\1"</span>,<span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>,<span class="st">"_dupRadar_ehist.png"</span><span class="op">)</span>,
-    width<span class="op">=</span><span class="fl">1000</span>, height<span class="op">=</span><span class="fl">1000</span><span class="op">)</span>
-<span class="fu"><a href="../reference/expressionHist.html">expressionHist</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co">## duprate vs. expression boxplot</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>file<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outdir</span>,<span class="st">"/"</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"(.*)\\.[^.]+"</span>,<span class="st">"\\1"</span>,<span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>,<span class="st">"_dupRadar_drebp.png"</span><span class="op">)</span>,
-    width<span class="op">=</span><span class="fl">1000</span>, height<span class="op">=</span><span class="fl">1000</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span><span class="op">+</span><span class="fl">.1</span><span class="op">)</span>
-<span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span><span class="va">dm</span>, main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>To include dupRadar as a single step in an RNA-Seq pipeline,
+integration into a short R-script can be done like in the following:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#!/usr/bin/env Rscript</span></span>
+<span></span>
+<span><span class="co">########################################</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## dupRadar shell script</span></span>
+<span><span class="co">## call dupRadar R package from the shell for </span></span>
+<span><span class="co">## easy integration into pipelines</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## Holger Klein &amp; Sergi Sayols</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## https://github.com/ssayols/dupRadar</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## input:</span></span>
+<span><span class="co">## - _duplicate marked_ bam file</span></span>
+<span><span class="co">## - gtf file</span></span>
+<span><span class="co">## - parameters for duplication counting routine:</span></span>
+<span><span class="co">##   stranded, paired, outdir, threads.</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">########################################</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.bioconductor.org/packages/dupRadar" class="external-link">dupRadar</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">####################</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## get name patterns from command line</span></span>
+<span><span class="co">##</span></span>
+<span><span class="va">args</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/commandArgs.html" class="external-link">commandArgs</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## the bam file to analyse</span></span>
+<span><span class="va">bam</span> <span class="op">&lt;-</span> <span class="va">args</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co">## usually, same GTF file as used in htseq-count</span></span>
+<span><span class="va">gtf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"gtf="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">## no|yes|reverse</span></span>
+<span><span class="va">stranded</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"stranded="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">## is a paired end experiment</span></span>
+<span><span class="va">paired</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"paired="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">## output directory</span></span>
+<span><span class="va">outdir</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"outdir="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">## number of threads to be used</span></span>
+<span><span class="va">threads</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"threads="</span>,<span class="st">""</span>,<span class="va">args</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">args</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Usage: ./dupRadar.sh &lt;file.bam&gt; &lt;genes.gtf&gt; "</span>,</span>
+<span>               <span class="st">"&lt;stranded=[no|yes|reverse]&gt; paired=[yes|no] "</span>,</span>
+<span>               <span class="st">"outdir=./ threads=1"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"File"</span>,<span class="va">bam</span>,<span class="st">"does NOT exist"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">gtf</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"File"</span>,<span class="va">gtf</span>,<span class="st">"does NOT exist"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">outdir</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Dir"</span>,<span class="va">outdir</span>,<span class="st">"does NOT exist"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">stranded</span><span class="op">)</span> <span class="op">|</span> <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"no|yes|reverse"</span>,<span class="va">stranded</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Stranded has to be no|yes|reverse"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">paired</span><span class="op">)</span> <span class="op">|</span> <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"no|yes"</span>,<span class="va">paired</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Paired has to be no|yes"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">threads</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Threads has to be an integer number"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">stranded</span> <span class="op">&lt;-</span> <span class="kw">if</span><span class="op">(</span><span class="va">stranded</span> <span class="op">==</span> <span class="st">"no"</span><span class="op">)</span> <span class="fl">0</span> <span class="kw">else</span> <span class="kw">if</span><span class="op">(</span><span class="va">stranded</span> <span class="op">==</span> <span class="st">"yes"</span><span class="op">)</span> <span class="fl">1</span> <span class="kw">else</span> <span class="fl">2</span></span>
+<span></span>
+<span><span class="co">## end command line parsing</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">########################################</span></span>
+<span></span>
+<span><span class="co">########################################</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">## analyze duprates and create plots</span></span>
+<span><span class="co">##</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Processing file "</span>, <span class="va">bam</span>, <span class="st">" with GTF "</span>, <span class="va">gtf</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## calculate duplication rate matrix</span></span>
+<span><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyzeDuprates.html">analyzeDuprates</a></span><span class="op">(</span><span class="va">bam</span>,</span>
+<span>                      <span class="va">gtf</span>,</span>
+<span>                      <span class="va">stranded</span>,</span>
+<span>                      <span class="op">(</span><span class="va">paired</span> <span class="op">==</span> <span class="st">"yes"</span><span class="op">)</span>,</span>
+<span>                      <span class="va">threads</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## produce plots</span></span>
+<span></span>
+<span><span class="co">## duprate vs. expression smooth scatter</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>file<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outdir</span>,<span class="st">"/"</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"(.*)\\.[^.]+"</span>,<span class="st">"\\1"</span>,<span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>,<span class="st">"_dupRadar_drescatter.png"</span><span class="op">)</span>,</span>
+<span>    width<span class="op">=</span><span class="fl">1000</span>, height<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span><span class="va">dm</span>, main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## expression histogram</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>file<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outdir</span>,<span class="st">"/"</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"(.*)\\.[^.]+"</span>,<span class="st">"\\1"</span>,<span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>,<span class="st">"_dupRadar_ehist.png"</span><span class="op">)</span>,</span>
+<span>    width<span class="op">=</span><span class="fl">1000</span>, height<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/expressionHist.html">expressionHist</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## duprate vs. expression boxplot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>file<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outdir</span>,<span class="st">"/"</span>,<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"(.*)\\.[^.]+"</span>,<span class="st">"\\1"</span>,<span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span>,<span class="st">"_dupRadar_drebp.png"</span><span class="op">)</span>,</span>
+<span>    width<span class="op">=</span><span class="fl">1000</span>, height<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span><span class="op">+</span><span class="fl">.1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span><span class="va">dm</span>, main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">bam</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="citing-dupradar">Citing dupRadar<a class="anchor" aria-label="anchor" href="#citing-dupradar"></a>
 </h3>
-<p>Please consider citing dupRadar if used in support of your own research:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"dupRadar"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## To cite package 'dupRadar' in publications use:</span>
-<span class="co">## </span>
-<span class="co">##   Sergi Sayols, Denise Scherzinger and Holger Klein (2016): dupRadar: a</span>
-<span class="co">##   Bioconductor package for the assessment of PCR artifacts in RNA-Seq</span>
-<span class="co">##   data. BMC Bioinformatics, 17:428, doi:10.1186/s12859-016-1276-2</span>
-<span class="co">## </span>
-<span class="co">## A BibTeX entry for LaTeX users is</span>
-<span class="co">## </span>
-<span class="co">##   @Article{,</span>
-<span class="co">##     title = {dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data},</span>
-<span class="co">##     author = {Sergi Sayols and Denise Scherzinger and Holger Klein},</span>
-<span class="co">##     year = {2016},</span>
-<span class="co">##     journal = {BMC Bioinformatics},</span>
-<span class="co">##     doi = {10.1186/s12859-016-1276-2},</span>
-<span class="co">##     url = {http://dx.doi.org/10.1186/s12859-016-1276-2},</span>
-<span class="co">##     volume = {17},</span>
-<span class="co">##     issue = {1},</span>
-<span class="co">##     pages = {428},</span>
-<span class="co">##   }</span></code></pre>
+<p>Please consider citing dupRadar if used in support of your own
+research:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"dupRadar"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## To cite package 'dupRadar' in publications use:</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Sergi Sayols, Denise Scherzinger and Holger Klein (2016): dupRadar: a</span></span>
+<span><span class="co">##   Bioconductor package for the assessment of PCR artifacts in RNA-Seq</span></span>
+<span><span class="co">##   data. BMC Bioinformatics, 17:428, doi:10.1186/s12859-016-1276-2</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   @Article{,</span></span>
+<span><span class="co">##     title = {dupRadar: a Bioconductor package for the assessment of PCR artifacts in RNA-Seq data},</span></span>
+<span><span class="co">##     author = {Sergi Sayols and Denise Scherzinger and Holger Klein},</span></span>
+<span><span class="co">##     year = {2016},</span></span>
+<span><span class="co">##     journal = {BMC Bioinformatics},</span></span>
+<span><span class="co">##     doi = {10.1186/s12859-016-1276-2},</span></span>
+<span><span class="co">##     url = {http://dx.doi.org/10.1186/s12859-016-1276-2},</span></span>
+<span><span class="co">##     volume = {17},</span></span>
+<span><span class="co">##     issue = {1},</span></span>
+<span><span class="co">##     pages = {428},</span></span>
+<span><span class="co">##   }</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="reporting-problems-or-bugs">Reporting problems or bugs<a class="anchor" aria-label="anchor" href="#reporting-problems-or-bugs"></a>
 </h3>
-<p>If you run into problems using dupRadar, the <a href="https://support.bioconductor.org/" class="external-link">Bioconductor Support site</a> is a good first place to ask for help. If you think there is a bug or an unreported feature, you can report it using the <a href="https://github.com/ssayols/dupRadar" class="external-link">dupRadar Github site</a>.</p>
+<p>If you run into problems using dupRadar, the <a href="https://support.bioconductor.org/" class="external-link">Bioconductor Support site</a>
+is a good first place to ask for help. If you think there is a bug or an
+unreported feature, you can report it using the <a href="https://github.com/ssayols/dupRadar" class="external-link">dupRadar Github site</a>.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<p>The following package and versions were used in the production of this vignette.</p>
-<pre><code><span class="co">## R version 4.2.1 (2022-06-23)</span>
-<span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">## Running under: Ubuntu 20.04.4 LTS</span>
-<span class="co">## </span>
-<span class="co">## Matrix products: default</span>
-<span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/atlas/libblas.so.3.10.3</span>
-<span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3.10.3</span>
-<span class="co">## </span>
-<span class="co">## locale:</span>
-<span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
-<span class="co">## </span>
-<span class="co">## attached base packages:</span>
-<span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
-<span class="co">## </span>
-<span class="co">## other attached packages:</span>
-<span class="co">## [1] dupRadar_1.26.1  knitr_1.39       BiocStyle_2.24.0</span>
-<span class="co">## </span>
-<span class="co">## loaded via a namespace (and not attached):</span>
-<span class="co">##  [1] magrittr_2.0.3      lattice_0.20-45     R6_2.5.1           </span>
-<span class="co">##  [4] ragg_1.2.2          rlang_1.0.2         fastmap_1.1.0      </span>
-<span class="co">##  [7] highr_0.9           stringr_1.4.0       tools_4.2.1        </span>
-<span class="co">## [10] grid_4.2.1          xfun_0.31           KernSmooth_2.23-20 </span>
-<span class="co">## [13] cli_3.3.0           jquerylib_0.1.4     systemfonts_1.0.4  </span>
-<span class="co">## [16] htmltools_0.5.2     Rsubread_2.10.1     yaml_2.3.5         </span>
-<span class="co">## [19] digest_0.6.29       rprojroot_2.0.3     pkgdown_2.0.3      </span>
-<span class="co">## [22] bookdown_0.26       textshaping_0.3.6   Matrix_1.4-1       </span>
-<span class="co">## [25] BiocManager_1.30.18 purrr_0.3.4         codetools_0.2-18   </span>
-<span class="co">## [28] sass_0.4.1          fs_1.5.2            memoise_2.0.1      </span>
-<span class="co">## [31] cachem_1.0.6        evaluate_0.15       rmarkdown_2.14     </span>
-<span class="co">## [34] stringi_1.7.6       compiler_4.2.1      bslib_0.3.1        </span>
-<span class="co">## [37] desc_1.4.1          jsonlite_1.8.0</span></code></pre>
+<p>The following package and versions were used in the production of
+this vignette.</p>
+<pre><code><span><span class="co">## R version 4.3.1 (2023-06-16)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span><span class="co">## Running under: Debian GNU/Linux trixie/sid</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/atlas/libblas.so.3.10.3 </span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3.10.3;  LAPACK version 3.11.0</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## time zone: Europe/Madrid</span></span>
+<span><span class="co">## tzcode source: system (glibc)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">## [1] AnnotationHub_3.8.0 BiocFileCache_2.8.0 dbplyr_2.3.3       </span></span>
+<span><span class="co">## [4] BiocGenerics_0.46.0 dupRadar_1.27.2     knitr_1.44         </span></span>
+<span><span class="co">## [7] BiocStyle_2.28.1   </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##  [1] KEGGREST_1.40.0               xfun_0.40                    </span></span>
+<span><span class="co">##  [3] bslib_0.5.1                   Biobase_2.60.0               </span></span>
+<span><span class="co">##  [5] lattice_0.21-8                bitops_1.0-7                 </span></span>
+<span><span class="co">##  [7] vctrs_0.6.3                   tools_4.3.1                  </span></span>
+<span><span class="co">##  [9] generics_0.1.3                stats4_4.3.1                 </span></span>
+<span><span class="co">## [11] curl_5.0.2                    AnnotationDbi_1.62.2         </span></span>
+<span><span class="co">## [13] tibble_3.2.1                  fansi_1.0.4                  </span></span>
+<span><span class="co">## [15] RSQLite_2.3.1                 blob_1.2.4                   </span></span>
+<span><span class="co">## [17] pkgconfig_2.0.3               Rsubread_2.14.2              </span></span>
+<span><span class="co">## [19] Matrix_1.6-1                  KernSmooth_2.23-22           </span></span>
+<span><span class="co">## [21] desc_1.4.2                    S4Vectors_0.38.1             </span></span>
+<span><span class="co">## [23] GenomeInfoDbData_1.2.10       lifecycle_1.0.3              </span></span>
+<span><span class="co">## [25] compiler_4.3.1                stringr_1.5.0                </span></span>
+<span><span class="co">## [27] Biostrings_2.68.1             textshaping_0.3.6            </span></span>
+<span><span class="co">## [29] codetools_0.2-19              GenomeInfoDb_1.36.2          </span></span>
+<span><span class="co">## [31] httpuv_1.6.11                 htmltools_0.5.6              </span></span>
+<span><span class="co">## [33] sass_0.4.7                    RCurl_1.98-1.12              </span></span>
+<span><span class="co">## [35] yaml_2.3.7                    interactiveDisplayBase_1.38.0</span></span>
+<span><span class="co">## [37] crayon_1.5.2                  pillar_1.9.0                 </span></span>
+<span><span class="co">## [39] pkgdown_2.0.7                 later_1.3.1                  </span></span>
+<span><span class="co">## [41] jquerylib_0.1.4               ellipsis_0.3.2               </span></span>
+<span><span class="co">## [43] cachem_1.0.8                  mime_0.12                    </span></span>
+<span><span class="co">## [45] tidyselect_1.2.0              digest_0.6.33                </span></span>
+<span><span class="co">## [47] stringi_1.7.12                dplyr_1.1.3                  </span></span>
+<span><span class="co">## [49] purrr_1.0.2                   bookdown_0.35                </span></span>
+<span><span class="co">## [51] BiocVersion_3.17.1            rprojroot_2.0.3              </span></span>
+<span><span class="co">## [53] fastmap_1.1.1                 grid_4.3.1                   </span></span>
+<span><span class="co">## [55] cli_3.6.1                     magrittr_2.0.3               </span></span>
+<span><span class="co">## [57] utf8_1.2.3                    withr_2.5.0                  </span></span>
+<span><span class="co">## [59] promises_1.2.1                filelock_1.0.2               </span></span>
+<span><span class="co">## [61] rappdirs_0.3.3                bit64_4.0.5                  </span></span>
+<span><span class="co">## [63] XVector_0.40.0                rmarkdown_2.25               </span></span>
+<span><span class="co">## [65] httr_1.4.7                    bit_4.0.5                    </span></span>
+<span><span class="co">## [67] png_0.1-8                     ragg_1.2.5                   </span></span>
+<span><span class="co">## [69] memoise_2.0.1                 shiny_1.7.5                  </span></span>
+<span><span class="co">## [71] evaluate_0.21                 IRanges_2.34.1               </span></span>
+<span><span class="co">## [73] rlang_1.1.1                   Rcpp_1.0.11                  </span></span>
+<span><span class="co">## [75] xtable_1.8-4                  glue_1.6.2                   </span></span>
+<span><span class="co">## [77] DBI_1.1.3                     BiocManager_1.30.22          </span></span>
+<span><span class="co">## [79] jsonlite_1.8.7                R6_2.5.1                     </span></span>
+<span><span class="co">## [81] zlibbioc_1.46.0               systemfonts_1.0.4            </span></span>
+<span><span class="co">## [83] fs_1.6.3</span></span></code></pre>
 </div>
   </div>
 
@@ -692,7 +863,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

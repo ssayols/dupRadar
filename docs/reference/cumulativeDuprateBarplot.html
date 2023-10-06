@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dupRadar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.26.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.27.2</span>
       </span>
     </div>
 
@@ -49,21 +49,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cumulativeDuprateBarplot</span><span class="op">(</span><span class="va">DupMat</span>, stepSize <span class="op">=</span> <span class="fl">0.05</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cumulativeDuprateBarplot</span><span class="op">(</span><span class="va">DupMat</span>, stepSize <span class="op">=</span> <span class="fl">0.05</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>DupMat</dt>
 <dd><p>The duplication matrix calculated by <code>analyzeDuprates</code></p></dd>
+
+
 <dt>stepSize</dt>
 <dd><p>The size of the windows used for plotting</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other params sent to barplot</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>nothing</p>
+    
+
+<p>nothing</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -73,12 +80,12 @@ from the duplication matrix calculated by <code>analyzeDuprates</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># dm is a duplication matrix calculated by analyzeDuprates:</span></span>
-<span class="r-in"><span class="co"># R&gt; dm &lt;- analyzeDuprates(bamDuprm,gtf,stranded,paired,threads)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">dupRadar_examples</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># call the plot</span></span>
-<span class="r-in"><span class="fu">cumulativeDuprateBarplot</span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># dm is a duplication matrix calculated by analyzeDuprates:</span></span></span>
+<span class="r-in"><span><span class="co"># R&gt; dm &lt;- analyzeDuprates(bamDuprm,gtf,stranded,paired,threads)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">dupRadar_examples</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># call the plot</span></span></span>
+<span class="r-in"><span><span class="fu">cumulativeDuprateBarplot</span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cumulativeDuprateBarplot-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -94,7 +101,7 @@ from the duplication matrix calculated by <code>analyzeDuprates</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

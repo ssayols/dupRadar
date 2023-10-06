@@ -27,7 +27,6 @@
 #'
 #' # call the duplicate marker and analyze the reads
 #' dm <- analyzeDuprates(bam,gtf,stranded,paired,threads)
-#' @importFrom Rsubread featureCounts
 #' @export
 analyzeDuprates <- function(bam,gtf,stranded=0,paired=FALSE,threads=1,
                             verbose=FALSE,...) {
