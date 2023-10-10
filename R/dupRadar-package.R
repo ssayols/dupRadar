@@ -1,5 +1,7 @@
 #' dupRadar.
 #'
+#' Duplication rate quality control for RNA-Seq datasets.
+#'
 #' @name dupRadar
 #' @docType package
 #' @import Rsubread 

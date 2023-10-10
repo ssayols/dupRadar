@@ -1,3 +1,9 @@
+Changes in version 1.30.3
+-------------------------
+
+    * Fix warning associated with documentation
+    * Ignore installation of license file
+
 Changes in version 1.30.2
 -------------------------
 

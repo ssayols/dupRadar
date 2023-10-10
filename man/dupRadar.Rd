@@ -4,3 +4,6 @@
 \name{dupRadar}
 \alias{dupRadar}
 \title{dupRadar.}
+\description{
+Duplication rate quality control for RNA-Seq datasets.
+}
