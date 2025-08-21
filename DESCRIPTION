@@ -18,4 +18,4 @@ License: GPL-3
 biocViews: Technology, Sequencing, RNASeq, QualityControl, ImmunoOncology
 NeedsCompilation: no
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

@@ -2,8 +2,17 @@
 % Please edit documentation in R/dupRadar-package.R
 \docType{package}
 \name{dupRadar}
+\alias{dupRadar-package}
 \alias{dupRadar}
 \title{dupRadar.}
 \description{
 Duplication rate quality control for RNA-Seq datasets.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://www.bioconductor.org/packages/dupRadar}
+  \item \url{https://ssayols.github.io/dupRadar/index.html}
+}
+
 }
