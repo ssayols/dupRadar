@@ -12,6 +12,7 @@ analyzeDuprates(
   paired = FALSE,
   threads = 1,
   verbose = FALSE,
+  tmpDir = ".",
   ...
 )
 }
@@ -27,6 +28,8 @@ analyzeDuprates(
 \item{threads}{The number of threads to be used for counting}
 
 \item{verbose}{Whether to output Rsubread messages into the console}
+
+\item{tmpDir}{Directory for temporary files created by featureCounts (default: ".")}
 
 \item{...}{Other params sent to featureCounts}
 }
@@ -44,13 +47,17 @@ combinations of allowing multimappers (yes/no) and duplicate reads (yes/no).
 }
 \examples{
 bam <- system.file("extdata",
-                   "wgEncodeCaltechRnaSeqGm12878R1x75dAlignsRep2V2_duprm.bam",
-                   package="dupRadar")
-gtf <- system.file("extdata","genes.gtf",package="dupRadar")
-stranded <- 2    # '0' (unstranded), '1' (stranded) and '2' (reverse)
-paired   <- FALSE
-threads  <- 4
+    "wgEncodeCaltechRnaSeqGm12878R1x75dAlignsRep2V2_duprm.bam",
+    package = "dupRadar"
+)
+gtf <- system.file("extdata", "genes.gtf", package = "dupRadar")
+stranded <- 2 # '0' (unstranded), '1' (stranded) and '2' (reverse)
+paired <- FALSE
+threads <- 4
 
 # call the duplicate marker and analyze the reads
-dm <- analyzeDuprates(bam,gtf,stranded,paired,threads)
+dm <- analyzeDuprates(bam, gtf, stranded, paired, threads)
+
+# use a different directory for temporary files (e.g., for FUSE filesystem issues)
+dm <- analyzeDuprates(bam, gtf, stranded, paired, threads, tmpDir = "/tmp")
 }
