@@ -1,3 +1,10 @@
+Changes in version 1.39.1
+-------------------------
+
+    *  Feature: add tmpDir parameter to analyzeDuprates (credit: Adam Talbot)
+       Resolves performance issues on FUSE-based filesystems by allowing
+       temporary files to be written to fast local storage instead of CWD
+
 Changes in version 1.30.3
 -------------------------
 
