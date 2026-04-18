@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dupRadar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.39.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.41.1</span>
       </span>
     </div>
 
@@ -190,7 +190,7 @@ cache.</p>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">cache</a></span><span class="op">(</span><span class="va">ah</span><span class="op">[</span><span class="st">"AH47101"</span><span class="op">]</span><span class="op">)</span>                                <span class="co"># retrieve / file path</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                                                           AH47101 </span></span>
-<span><span class="co">## "/Users/runner/Library/Caches/org.R-project.R/R/AnnotationHub/196840815064_52579"</span></span></code></pre>
+<span><span class="co">## "/Users/runner/Library/Caches/org.R-project.R/R/AnnotationHub/6c1b2ea653b2_52579"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -216,7 +216,7 @@ specific? if so, are the reads reversely sequenced?</li>
 <li>Are the reads paired, or single?</li>
 </ul>
 <p>Due to its phenomenal performance, internally we use the
-featureCounts() function from the Bioconductor <em><a href="https://bioconductor.org/packages/3.21/Rsubread" class="external-link">Rsubread</a></em>
+featureCounts() function from the Bioconductor <em><a href="https://bioconductor.org/packages/3.22/Rsubread" class="external-link">Rsubread</a></em>
 package, which also supports multiple threads.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The call parameters: </span></span>
@@ -385,12 +385,12 @@ relationship. The most prominent may be the 2d density scatter plot:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"good experiment"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span><span class="op">)</span>   <span class="co"># a dataset with duplication problems</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"duplication problems"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-5-1.png" width="1344"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="1344"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## duprate boxplot</span></span>
 <span><span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span>        <span class="co"># a good looking plot</span></span>
 <span><span class="fu"><a href="../reference/duprateExpBoxplot.html">duprateExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span><span class="op">)</span>    <span class="co"># a dataset with duplication problems</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-5-2.png" width="1344"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-5-2.png" class="r-plt" alt="" width="1344"></p>
 <p>The <em>duprateExpDensPlot</em> has helper lines at the threshold of
 1 read/bp and at 0.5 RPKM. Moreover by default a generalized linear
 model is fit to the data and overplotted (see also below).</p>
@@ -405,7 +405,7 @@ progression of the duplication rate along with the progression of the
 read counts (Slope).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/duprateExpDensPlot.html">duprateExpDensPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># or, just to get the fitted model without plot</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/duprateExpFit.html">duprateExpFit</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span>
@@ -434,7 +434,7 @@ color density representation of the same data:</p>
 <span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span>,<span class="st">"green"</span>,<span class="st">"yellow"</span>,<span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span>,addLegend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/duprateExpPlot.html">duprateExpPlot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm.bad</span>,addLegend<span class="op">=</span><span class="cn">FALSE</span>,nrpoints<span class="op">=</span><span class="fl">10</span>,nbin<span class="op">=</span><span class="fl">500</span>,colramp<span class="op">=</span><span class="va">cols</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-8-1.png" width="1344"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="1344"></p>
 <p>Any further parm sent to the <em>duprateExpPlot</em> is also sent to
 the <em>smoothScatter</em> function.</p>
 </div>
@@ -479,13 +479,13 @@ information about the gene expression levels.</p>
 groups of genes binned by 5% expression levels.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/readcountExpBoxplot.html">readcountExpBoxplot</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="672"></p>
 <p>In the example we see that the 5% of highest expressed genes in our
 sample data set take up around 60% of all reads.</p>
 <p>The distribution of RPK values per genes can be plotted with:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expressionHist.html">expressionHist</a></span><span class="op">(</span>DupMat<span class="op">=</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="672"></p>
 <p>This would help in identifying skewed distributions with unusual
 amount of lowly expressed genes, or to detect no consensus between
 replicates.</p>
@@ -532,7 +532,7 @@ per gene can be calculating then dividing by
 <span>     main<span class="op">=</span><span class="st">"Frequency of multimapping rates"</span>, </span>
 <span>     xlab<span class="op">=</span><span class="st">"Multimapping rate per gene"</span>, </span>
 <span>     ylab<span class="op">=</span><span class="st">"Frequency"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="672"></p>
 <p>Also the direct comparison of reads per kilobase between uniquely and
 multimappers is possible.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -542,7 +542,7 @@ multimappers is possible.</p>
 <span>     xlab<span class="op">=</span><span class="st">"Reads per kb (uniquely mapping reads only)"</span>,</span>
 <span>     ylab<span class="op">=</span><span class="st">"Reads per kb (all including multimappers, non-weighted)"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dupRadar_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p><img src="dupRadar_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="672"></p>
 <p>Use with identify() to annotate interesting cases interactively.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/identify.html" class="external-link">identify</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">dm</span><span class="op">$</span><span class="va">RPK</span><span class="op">)</span>, </span>
@@ -772,9 +772,9 @@ unreported feature, you can report it using the <a href="https://github.com/ssay
 </h2>
 <p>The following package and versions were used in the production of
 this vignette.</p>
-<pre><code><span><span class="co">## R version 4.5.1 (2025-06-13)</span></span>
+<pre><code><span><span class="co">## R version 4.5.3 (2026-03-11)</span></span>
 <span><span class="co">## Platform: aarch64-apple-darwin20</span></span>
-<span><span class="co">## Running under: macOS Sequoia 15.5</span></span>
+<span><span class="co">## Running under: macOS Sequoia 15.7.4</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib </span></span>
@@ -790,34 +790,33 @@ this vignette.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] AnnotationHub_3.16.1 BiocFileCache_2.16.2 dbplyr_2.5.0        </span></span>
-<span><span class="co">## [4] BiocGenerics_0.54.0  generics_0.1.4       dupRadar_1.39.1     </span></span>
-<span><span class="co">## [7] knitr_1.50           BiocStyle_2.36.0    </span></span>
+<span><span class="co">## [1] AnnotationHub_4.0.0 BiocFileCache_3.0.0 dbplyr_2.5.2       </span></span>
+<span><span class="co">## [4] BiocGenerics_0.56.0 generics_0.1.4      dupRadar_1.41.1    </span></span>
+<span><span class="co">## [7] knitr_1.51          BiocStyle_2.38.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] KEGGREST_1.48.1         xfun_0.53               bslib_0.9.0            </span></span>
-<span><span class="co">##  [4] Biobase_2.68.0          lattice_0.22-7          vctrs_0.6.5            </span></span>
-<span><span class="co">##  [7] tools_4.5.1             stats4_4.5.1            curl_7.0.0             </span></span>
-<span><span class="co">## [10] tibble_3.3.0            AnnotationDbi_1.70.0    RSQLite_2.4.3          </span></span>
-<span><span class="co">## [13] blob_1.2.4              pkgconfig_2.0.3         Rsubread_2.22.1        </span></span>
-<span><span class="co">## [16] Matrix_1.7-3            KernSmooth_2.23-26      desc_1.4.3             </span></span>
-<span><span class="co">## [19] S4Vectors_0.46.0        GenomeInfoDbData_1.2.14 lifecycle_1.0.4        </span></span>
-<span><span class="co">## [22] compiler_4.5.1          textshaping_1.0.1       Biostrings_2.76.0      </span></span>
-<span><span class="co">## [25] codetools_0.2-20        GenomeInfoDb_1.44.2     htmltools_0.5.8.1      </span></span>
-<span><span class="co">## [28] sass_0.4.10             yaml_2.3.10             pillar_1.11.0          </span></span>
-<span><span class="co">## [31] pkgdown_2.1.3           crayon_1.5.3            jquerylib_0.1.4        </span></span>
-<span><span class="co">## [34] cachem_1.1.0            mime_0.13               tidyselect_1.2.1       </span></span>
-<span><span class="co">## [37] digest_0.6.37           purrr_1.1.0             dplyr_1.1.4            </span></span>
-<span><span class="co">## [40] bookdown_0.44           BiocVersion_3.21.1      fastmap_1.2.0          </span></span>
-<span><span class="co">## [43] grid_4.5.1              cli_3.6.5               magrittr_2.0.3         </span></span>
-<span><span class="co">## [46] withr_3.0.2             UCSC.utils_1.4.0        filelock_1.0.3         </span></span>
-<span><span class="co">## [49] rappdirs_0.3.3          bit64_4.6.0-1           rmarkdown_2.29         </span></span>
-<span><span class="co">## [52] XVector_0.48.0          httr_1.4.7              bit_4.6.0              </span></span>
-<span><span class="co">## [55] ragg_1.4.0              png_0.1-8               memoise_2.0.1          </span></span>
-<span><span class="co">## [58] evaluate_1.0.5          IRanges_2.42.0          rlang_1.1.6            </span></span>
-<span><span class="co">## [61] glue_1.8.0              DBI_1.2.3               BiocManager_1.30.26    </span></span>
-<span><span class="co">## [64] jsonlite_2.0.0          R6_2.6.1                systemfonts_1.2.3      </span></span>
-<span><span class="co">## [67] fs_1.6.6</span></span></code></pre>
+<span><span class="co">##  [1] KEGGREST_1.50.0      xfun_0.57            bslib_0.10.0        </span></span>
+<span><span class="co">##  [4] httr2_1.2.2          Biobase_2.70.0       lattice_0.22-9      </span></span>
+<span><span class="co">##  [7] vctrs_0.7.3          tools_4.5.3          stats4_4.5.3        </span></span>
+<span><span class="co">## [10] curl_7.0.0           tibble_3.3.1         AnnotationDbi_1.72.0</span></span>
+<span><span class="co">## [13] RSQLite_2.4.6        blob_1.3.0           pkgconfig_2.0.3     </span></span>
+<span><span class="co">## [16] Rsubread_2.24.0      Matrix_1.7-4         KernSmooth_2.23-26  </span></span>
+<span><span class="co">## [19] desc_1.4.3           S4Vectors_0.48.1     lifecycle_1.0.5     </span></span>
+<span><span class="co">## [22] compiler_4.5.3       textshaping_1.0.5    Biostrings_2.78.0   </span></span>
+<span><span class="co">## [25] Seqinfo_1.0.0        codetools_0.2-20     htmltools_0.5.9     </span></span>
+<span><span class="co">## [28] sass_0.4.10          yaml_2.3.12          pillar_1.11.1       </span></span>
+<span><span class="co">## [31] pkgdown_2.2.0        crayon_1.5.3         jquerylib_0.1.4     </span></span>
+<span><span class="co">## [34] cachem_1.1.0         tidyselect_1.2.1     digest_0.6.39       </span></span>
+<span><span class="co">## [37] dplyr_1.2.1          purrr_1.2.2          bookdown_0.46       </span></span>
+<span><span class="co">## [40] BiocVersion_3.22.0   fastmap_1.2.0        grid_4.5.3          </span></span>
+<span><span class="co">## [43] cli_3.6.6            magrittr_2.0.5       withr_3.0.2         </span></span>
+<span><span class="co">## [46] filelock_1.0.3       rappdirs_0.3.4       bit64_4.6.0-1       </span></span>
+<span><span class="co">## [49] rmarkdown_2.31       XVector_0.50.0       httr_1.4.8          </span></span>
+<span><span class="co">## [52] bit_4.6.0            ragg_1.5.2           png_0.1-9           </span></span>
+<span><span class="co">## [55] memoise_2.0.1        evaluate_1.0.5       IRanges_2.44.0      </span></span>
+<span><span class="co">## [58] rlang_1.2.0          glue_1.8.0           DBI_1.3.0           </span></span>
+<span><span class="co">## [61] BiocManager_1.30.27  jsonlite_2.0.0       R6_2.6.1            </span></span>
+<span><span class="co">## [64] systemfonts_1.3.2    fs_2.0.1</span></span></code></pre>
 </div>
   </div>
 
@@ -836,7 +835,7 @@ this vignette.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
