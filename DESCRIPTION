@@ -1,7 +1,7 @@
 Package: dupRadar
 Type: Package
 Title: Assessment of duplication rates in RNA-Seq datasets
-Version: 1.39.1
+Version: 1.41.1
 Date: 2015-09-26
 Author: Sergi Sayols <sergisayolspuig@gmail.com>, Holger Klein
         <holger.klein@gmail.com>
@@ -19,3 +19,4 @@ biocViews: Technology, Sequencing, RNASeq, QualityControl, ImmunoOncology
 NeedsCompilation: no
 Encoding: UTF-8
 RoxygenNote: 7.3.2
+Config/Bioconductor/UnsupportedPlatforms: windows
